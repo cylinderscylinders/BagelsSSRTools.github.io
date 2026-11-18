@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bagel's SSR Paint & Livery Tool</title>
+<style>
+  :root {
+    --bg: #12141a;
+    --card: #1b1e26;
+    --panel: #151820;
+    --border: #2c313d;
+    --accent: #ff3e55;
+    --accent-hover: #e02e44;
+    --text: #f0f2f5;
+    --muted: #8b94a5;
+  }
+
+  * {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+
+  .container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  h1 {
+    margin: 0 0 6px 0;
+    font-size: 1.35rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  p.subtitle {
+    margin: 0 0 20px 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .preview-box {
+    width: 100%;
+    height: 90px;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 10px 14px;
+    transition: background-color 0.1s ease;
+  }
+
+  .preview-label {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-family: monospace;
+    color: #fff;
+  }
+
+  .section-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin: 20px 0 10px 0;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  input[type="text"],
+  input[type="number"] {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    width: 100%;
+  }
+
+  input[type="color"] {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    height: 41px;
+    width: 54px;
+    padding: 2px;
+    cursor: pointer;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .ssr-output {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 10px;
+  }
+
+  .slider-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .slider-stat:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .slider-stat:first-child {
+    padding-top: 0;
+  }
+
+  .stat-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .stat-range {
+    font-size: 0.75rem;
+    color: var(--muted);
+    display: block;
+  }
+
+  .stat-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: monospace;
+  }
+
+  .btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 11px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--accent-hover);
+  }
+
+  .btn-full {
+    width: 100%;
+    margin-top: 14px;
+  }
+
+  .btn-secondary {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 7px 10px;
+    font-size: 0.78rem;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--muted);
+    background: #222631;
+  }
+
+  .btn-danger {
+    background: transparent;
+    border: 1px solid #4a232a;
+    color: #ff6b7d;
+    padding: 6px 9px;
+    font-size: 0.75rem;
+  }
+
+  .btn-danger:hover {
+    background: #3a1a20;
+  }
+
+  .preset-save-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .preset-save-row input[type="text"] {
+    flex: 1;
+  }
+
+  .preset-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .preset-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  .preset-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 2px;
+  }
+
+  .preset-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    gap: 10px;
+    transition: border-color 0.15s;
+  }
+
+  .preset-item:hover {
+    border-color: #464e61;
+  }
+
+  .preset-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    cursor: pointer;
+    min-width: 0;
+  }
+
+  .preset-swatch {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+  }
+
+  .preset-meta {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .preset-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .preset-values {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-family: monospace;
+    margin-top: 2px;
+  }
+
+  .preset-item-btns {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 20px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    background: var(--panel);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+  }
+
+  .note {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 16px;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Bagel's SSR Paint & Livery Tool</h1>
+  <p class="subtitle">Convert Hex or HSL to Static Shift Racing HSV Sliders & Save Custom Presets</p>
+
+  <div class="preview-box" id="previewBox">
+    <span class="preview-label" id="previewHex">#FF3E55</span>
+    <span class="preview-label" id="previewRgb">RGB(255, 62, 85)</span>
+  </div>
+
+  <!-- HEX INPUT -->
+  <div class="section-title">1. Hex Code or Picker</div>
+  <div class="input-row">
+    <div class="input-group" style="flex: 0 0 auto;">
+      <label for="colorPicker">Picker</label>
+      <input type="color" id="colorPicker" value="#ff3e55">
+    </div>
+    <div class="input-group">
+      <label for="hexInput">Hex Code (e.g. #FF3E55 or 3A86FF)</label>
+      <input type="text" id="hexInput" value="#FF3E55" maxlength="7" placeholder="#RRGGBB">
+    </div>
+  </div>
+
+  <!-- HSL INPUT -->
+  <div class="section-title">2. Standard HSL Input</div>
+  <div class="input-row">
+    <div class="input-group">
+      <label for="hslH">Hue (0–360°)</label>
+      <input type="number" id="hslH" min="0" max="360" value="353">
+    </div>
+    <div class="input-group">
+      <label for="hslS">Saturation (0–100%)</label>
+      <input type="number" id="hslS" min="0" max="100" value="100">
+    </div>
+    <div class="input-group">
+      <label for="hslL">Lightness (0–100%)</label>
+      <input type="number" id="hslL" min="0" max="100" value="62">
+    </div>
+  </div>
+
+  <!-- SSR OUTPUT -->
+  <div class="section-title">Static Shift Racing Sliders</div>
+  <div class="ssr-output">
+    <div class="slider-stat">
+      <div>
+        <span class="stat-name">Hue</span>
+        <span class="stat-range">Scale: 0 to 100</span>
+      </div>
+      <span class="stat-value" id="ssrHue">98</span>
+    </div>
+    <div class="slider-stat">
+      <div>
+        <span class="stat-name">Saturation</span>
+        <span class="stat-range">Scale: 0 to 100%</span>
+      </div>
+      <span class="stat-value" id="ssrSat">76%</span>
+    </div>
+    <div class="slider-stat">
+      <div>
+        <span class="stat-name">Brightness</span>
+        <span class="stat-range">Scale: 0 to 100</span>
+      </div>
+      <span class="stat-value" id="ssrVal">100</span>
+    </div>
+  </div>
+
+  <button class="btn btn-full" id="copyBtn">Copy SSR Values</button>
+
+  <!-- CUSTOM PRESET TOOL -->
+  <div class="section-title">
+    <span>Custom Colour Presets</span>
+    <span id="presetCount">0 Saved</span>
+  </div>
+
+  <div class="preset-save-row">
+    <input type="text" id="presetName" placeholder="Name this colour (e.g. Bayside Blue)..." maxlength="40">
+    <button class="btn" id="savePresetBtn">Save Preset</button>
+  </div>
+
+  <div class="preset-toolbar">
+    <span style="font-size: 0.75rem; color: var(--muted);">Click a saved colour to load it</span>
+    <div class="preset-actions">
+      <button class="btn btn-secondary" id="exportBtn">Export .json</button>
+      <button class="btn btn-secondary" id="importBtn">Import .json</button>
+      <input type="file" id="importFile" accept=".json" style="display: none;">
+    </div>
+  </div>
+
+  <div class="preset-list" id="presetList"></div>
+
+  <p class="note">
+    <strong>Note:</strong> Static Shift Racing uses HSV (Brightness) rather than HSL (Lightness). Saved presets are stored automatically in your browser.
+  </p>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const STORAGE_KEY = "bagels_ssr_colour_presets_v1";
+
+    const colorPicker = document.getElementById("colorPicker");
+    const hexInput = document.getElementById("hexInput");
+    const hslH = document.getElementById("hslH");
+    const hslS = document.getElementById("hslS");
+    const hslL = document.getElementById("hslL");
+
+    const previewBox = document.getElementById("previewBox");
+    const previewHex = document.getElementById("previewHex");
+    const previewRgb = document.getElementById("previewRgb");
+
+    const ssrHue = document.getElementById("ssrHue");
+    const ssrSat = document.getElementById("ssrSat");
+    const ssrVal = document.getElementById("ssrVal");
+    const copyBtn = document.getElementById("copyBtn");
+
+    const presetNameInput = document.getElementById("presetName");
+    const savePresetBtn = document.getElementById("savePresetBtn");
+    const presetList = document.getElementById("presetList");
+    const presetCount = document.getElementById("presetCount");
+    const exportBtn = document.getElementById("exportBtn");
+    const importBtn = document.getElementById("importBtn");
+    const importFile = document.getElementById("importFile");
+
+    let currentState = {
+      hex: "#FF3E55",
+      r: 255,
+      g: 62,
+      b: 85,
+      h: 98,
+      s: 76,
+      v: 100
+    };
+
+    let presets = loadPresets();
+
+    function clamp(val, min, max) {
+      return Math.min(Math.max(val, min), max);
+    }
+
+    function hexToRgb(hex) {
+      let clean = hex.replace(/[^0-9A-Fa-f]/g, "");
+      if (clean.length === 3) {
+        clean = clean.split("").map(c => c + c).join("");
+      }
+      if (clean.length !== 6) return null;
+      const num = parseInt(clean, 16);
+      return {
+        r: (num >> 16) & 255,
+        g: (num >> 8) & 255,
+        b: num & 255,
+        hex: "#" + clean.toUpperCase()
+      };
+    }
+
+    function rgbToHex(r, g, b) {
+      return "#" + [r, g, b].map(x => {
+        const hex = Math.round(x).toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+      }).join("").toUpperCase();
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0;
+      } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      return {
+        h: Math.round(h * 360),
+        s: Math.round(s * 100),
+        l: Math.round(l * 100)
+      };
+    }
+
+    function hslToRgb(h, s, l) {
+      h = ((h % 360) + 360) % 360;
+      s = clamp(s, 0, 100) / 100;
+      l = clamp(l, 0, 100) / 100;
+
+      const c = (1 - Math.abs(2 * l - 1)) * s;
+      const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+      const m = l - c / 2;
+      let r1 = 0, g1 = 0, b1 = 0;
+
+      if (h < 60) { r1 = c; g1 = x; b1 = 0; }
+      else if (h < 120) { r1 = x; g1 = c; b1 = 0; }
+      else if (h < 180) { r1 = 0; g1 = c; b1 = x; }
+      else if (h < 240) { r1 = 0; g1 = x; b1 = c; }
+      else if (h < 300) { r1 = x; g1 = 0; b1 = c; }
+      else { r1 = c; g1 = 0; b1 = x; }
+
+      return {
+        r: Math.round((r1 + m) * 255),
+        g: Math.round((g1 + m) * 255),
+        b: Math.round((b1 + m) * 255)
+      };
+    }
+
+    function rgbToHsv(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      const d = max - min;
+      let h = 0;
+      const s = max === 0 ? 0 : d / max;
+      const v = max;
+
+      if (max !== min) {
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+
+      return {
+        h: h * 360,
+        s: s * 100,
+        v: v * 100
+      };
+    }
+
+    function updateDisplay(r, g, b, source) {
+      const hex = rgbToHex(r, g, b);
+      const hsl = rgbToHsl(r, g, b);
+      const hsv = rgbToHsv(r, g, b);
+
+      previewBox.style.backgroundColor = hex;
+      previewHex.textContent = hex;
+      previewRgb.textContent = `RGB(${r}, ${g}, ${b})`;
+
+      if (source !== "hex") {
+        hexInput.value = hex;
+      }
+      if (source !== "picker") {
+        colorPicker.value = hex;
+      }
+      if (source !== "hsl") {
+        hslH.value = hsl.h;
+        hslS.value = hsl.s;
+        hslL.value = hsl.l;
+      }
+
+      const ssrH = Math.round((hsv.h / 360) * 100);
+      const ssrS = Math.round(hsv.s);
+      const ssrV = Math.round(hsv.v);
+
+      ssrHue.textContent = ssrH;
+      ssrSat.textContent = ssrS + "%";
+      ssrVal.textContent = ssrV;
+
+      currentState = { hex, r, g, b, h: ssrH, s: ssrS, v: ssrV };
+    }
+
+    function loadPresets() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function savePresetsToStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(presets));
+      } catch (e) {
+        alert("Could not save to browser local storage.");
+      }
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement("div");
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function renderPresets() {
+      presetCount.textContent = `${presets.length} Saved`;
+      if (presets.length === 0) {
+        presetList.innerHTML = `<div class="empty-state">No presets saved yet. Name a colour above and click Save Preset.</div>`;
+        return;
+      }
+
+      presetList.innerHTML = "";
+      presets.forEach((item, index) => {
+        const row = document.createElement("div");
+        row.className = "preset-item";
+
+        row.innerHTML = `
+          <div class="preset-info" data-index="${index}" title="Click to load colour">
+            <div class="preset-swatch" style="background-color: ${escapeHtml(item.hex)};"></div>
+            <div class="preset-meta">
+              <span class="preset-name">${escapeHtml(item.name)}</span>
+              <span class="preset-values">${escapeHtml(item.hex)} &bull; H:${item.h} S:${item.s}% B:${item.v}</span>
+            </div>
+          </div>
+          <div class="preset-item-btns">
+            <button class="btn btn-secondary copy-preset-btn" data-index="${index}">Copy</button>
+            <button class="btn btn-danger delete-preset-btn" data-index="${index}">Delete</button>
+          </div>
+        `;
+        presetList.appendChild(row);
+      });
+
+      document.querySelectorAll(".preset-info").forEach(el => {
+        el.addEventListener("click", function () {
+          const idx = parseInt(this.getAttribute("data-index"), 10);
+          const item = presets[idx];
+          if (item) {
+            const rgb = hexToRgb(item.hex);
+            if (rgb) {
+              updateDisplay(rgb.r, rgb.g, rgb.b, "preset");
+            }
+          }
+        });
+      });
+
+      document.querySelectorAll(".copy-preset-btn").forEach(btn => {
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          const idx = parseInt(this.getAttribute("data-index"), 10);
+          const item = presets[idx];
+          if (item) {
+            const text = `${item.name} (${item.hex}) -> Hue: ${item.h} | Saturation: ${item.s}% | Brightness: ${item.v}`;
+            navigator.clipboard.writeText(text).then(() => {
+              const orig = this.textContent;
+              this.textContent = "Copied!";
+              setTimeout(() => this.textContent = orig, 1200);
+            });
+          }
+        });
+      });
+
+      document.querySelectorAll(".delete-preset-btn").forEach(btn => {
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          const idx = parseInt(this.getAttribute("data-index"), 10);
+          presets.splice(idx, 1);
+          savePresetsToStorage();
+          renderPresets();
+        });
+      });
+    }
+
+    function addCurrentPreset() {
+      const rawName = presetNameInput.value.trim();
+      const name = rawName || `Custom ${currentState.hex}`;
+      presets.unshift({
+        name: name,
+        hex: currentState.hex,
+        h: currentState.h,
+        s: currentState.s,
+        v: currentState.v
+      });
+      savePresetsToStorage();
+      renderPresets();
+      presetNameInput.value = "";
+    }
+
+    // Event Listeners
+    hexInput.addEventListener("input", function () {
+      const rgb = hexToRgb(this.value);
+      if (rgb) {
+        updateDisplay(rgb.r, rgb.g, rgb.b, "hex");
+      }
+    });
+
+    colorPicker.addEventListener("input", function () {
+      const rgb = hexToRgb(this.value);
+      if (rgb) {
+        updateDisplay(rgb.r, rgb.g, rgb.b, "picker");
+      }
+    });
+
+    [hslH, hslS, hslL].forEach(input => {
+      input.addEventListener("input", function () {
+        const h = parseFloat(hslH.value) || 0;
+        const s = parseFloat(hslS.value) || 0;
+        const l = parseFloat(hslL.value) || 0;
+        const rgb = hslToRgb(h, s, l);
+        updateDisplay(rgb.r, rgb.g, rgb.b, "hsl");
+      });
+    });
+
+    copyBtn.addEventListener("click", function () {
+      const text = `SSR Paint -> Hue: ${ssrHue.textContent} | Saturation: ${ssrSat.textContent} | Brightness: ${ssrVal.textContent}`;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = copyBtn.textContent;
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => copyBtn.textContent = orig, 1500);
+      });
+    });
+
+    savePresetBtn.addEventListener("click", addCurrentPreset);
+    presetNameInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        addCurrentPreset();
+      }
+    });
+
+    exportBtn.addEventListener("click", function () {
+      if (presets.length === 0) {
+        alert("No presets to export yet.");
+        return;
+      }
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(presets, null, 2));
+      const dlAnchor = document.createElement("a");
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", "bagels-ssr-presets.json");
+      document.body.appendChild(dlAnchor);
+      dlAnchor.click();
+      dlAnchor.remove();
+    });
+
+    importBtn.addEventListener("click", function () {
+      importFile.click();
+    });
+
+    importFile.addEventListener("change", function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (evt) {
+        try {
+          const imported = JSON.parse(evt.target.result);
+          if (Array.isArray(imported)) {
+            const valid = imported.filter(p => p && typeof p.hex === "string" && typeof p.name === "string");
+            presets = valid.concat(presets);
+            savePresetsToStorage();
+            renderPresets();
+          } else {
+            alert("Invalid preset file format.");
+          }
+        } catch (err) {
+          alert("Could not read JSON file.");
+        }
+        importFile.value = "";
+      };
+      reader.readAsText(file);
+    });
+
+    // Initialize
+    const initial = hexToRgb(hexInput.value);
+    if (initial) updateDisplay(initial.r, initial.g, initial.b, "init");
+    renderPresets();
+  });
+</script>
+
+</body>
+</html>

@@ -1434,9 +1434,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   oemSearch.addEventListener("input", renderOemList);
 
-  // Copy SSR Values
+ // Copy SSR Values
   copyBtn.addEventListener("click", function () {
-    const text = `SSR Paint -> Hue: ${ssrHue.textContent} | Saturation: ${ssrSat.textContent} | Brightness: ${ssrVal.textContent}`;
+    const normalize = (el) => {
+      const val = parseFloat(el.textContent) / 100;
+      const clamped = Math.min(1, Math.max(0, isNaN(val) ? 0 : val));
+      return clamped.toFixed(3);
+    };
+
+    const h = normalize(ssrHue);
+    const s = normalize(ssrSat);
+    const v = normalize(ssrVal);
+
+    const text = `SSR-Paint H=${h} S=${s} V=${v}`;
+
     navigator.clipboard.writeText(text).then(() => {
       const orig = copyBtn.textContent;
       copyBtn.textContent = "Copied!";

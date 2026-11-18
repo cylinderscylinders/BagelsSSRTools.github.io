@@ -6,10 +6,10 @@
 <title>Bagel's SSR Paint & Livery Tool</title>
 <style>
   :root {
-    --bg: #12141a;
-    --card: #1b1e26;
-    --panel: #151820;
-    --border: #2c313d;
+    --bg: #111318;
+    --card: #191c24;
+    --card-alt: #14171e;
+    --border: #2a2f3c;
     --accent: #ff3e55;
     --accent-hover: #e02e44;
     --text: #f0f2f5;
@@ -25,7 +25,7 @@
     background-color: var(--bg);
     color: var(--text);
     margin: 0;
-    padding: 20px;
+    padding: 20px 14px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -35,32 +35,32 @@
   .container {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 24px;
     width: 100%;
-    max-width: 520px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    max-width: 560px;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
   }
 
   h1 {
-    margin: 0 0 6px 0;
+    margin: 0 0 4px 0;
     font-size: 1.35rem;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
     text-transform: uppercase;
   }
 
   p.subtitle {
-    margin: 0 0 20px 0;
+    margin: 0 0 18px 0;
     color: var(--muted);
     font-size: 0.85rem;
   }
 
   .preview-box {
     width: 100%;
-    height: 90px;
-    border-radius: 8px;
+    height: 92px;
+    border-radius: 10px;
     border: 2px solid var(--border);
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -70,21 +70,21 @@
 
   .preview-label {
     background: rgba(0, 0, 0, 0.7);
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.75rem;
+    padding: 4px 9px;
+    border-radius: 5px;
+    font-size: 0.78rem;
     font-family: monospace;
     color: #fff;
   }
 
   .section-title {
-    font-size: 0.75rem;
+    font-size: 0.74rem;
     text-transform: uppercase;
     letter-spacing: 1px;
     color: var(--muted);
     margin: 20px 0 10px 0;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 4px;
+    padding-bottom: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -93,7 +93,7 @@
   .input-row {
     display: flex;
     gap: 10px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   .input-group {
@@ -113,9 +113,9 @@
     background: var(--bg);
     border: 1px solid var(--border);
     color: var(--text);
-    padding: 10px;
+    padding: 9px 11px;
     border-radius: 6px;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     width: 100%;
   }
 
@@ -123,8 +123,8 @@
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 6px;
-    height: 41px;
-    width: 54px;
+    height: 39px;
+    width: 52px;
     padding: 2px;
     cursor: pointer;
   }
@@ -134,19 +134,168 @@
     border-color: var(--accent);
   }
 
+  /* Image Eyedropper Section */
+  .dropper-box {
+    background: var(--card-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .dropper-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .file-label {
+    background: #252a36;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0;
+  }
+
+  .file-label:hover {
+    border-color: var(--accent);
+  }
+
+  .canvas-wrap {
+    margin-top: 10px;
+    position: relative;
+    display: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    background: #0b0c10;
+    text-align: center;
+  }
+
+  #imageCanvas {
+    max-width: 100%;
+    max-height: 280px;
+    display: block;
+    margin: 0 auto;
+    cursor: crosshair;
+    touch-action: none;
+  }
+
+  .loupe-bar {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    padding: 6px 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.8rem;
+  }
+
+  .loupe-swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    border: 1px solid #fff;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  /* OEM Paint Code Search */
+  .filter-pills {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    cursor: pointer;
+  }
+
+  .pill.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .oem-results {
+    max-height: 175px;
+    overflow-y: auto;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-top: 6px;
+  }
+
+  .oem-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    font-size: 0.82rem;
+  }
+
+  .oem-item:last-child {
+    border-bottom: none;
+  }
+
+  .oem-item:hover {
+    background: #1f232e;
+  }
+
+  .oem-left {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .oem-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.25);
+    flex-shrink: 0;
+  }
+
+  .oem-code-badge {
+    font-family: monospace;
+    background: #252a36;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: #fff;
+  }
+
+  /* SSR Output */
   .ssr-output {
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 16px;
-    margin-top: 10px;
+    padding: 14px 16px;
   }
 
   .slider-stat {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
+    padding: 7px 0;
     border-bottom: 1px solid var(--border);
   }
 
@@ -161,17 +310,17 @@
 
   .stat-name {
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
   }
 
   .stat-range {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     color: var(--muted);
     display: block;
   }
 
   .stat-value {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--accent);
     font-family: monospace;
@@ -181,10 +330,10 @@
     background: var(--accent);
     color: #fff;
     border: none;
-    padding: 11px 16px;
+    padding: 10px 14px;
     border-radius: 6px;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     cursor: pointer;
     transition: background 0.15s;
   }
@@ -193,144 +342,93 @@
     background: var(--accent-hover);
   }
 
-  .btn-full {
-    width: 100%;
-    margin-top: 14px;
-  }
-
   .btn-secondary {
-    background: var(--bg);
+    background: #252a36;
     border: 1px solid var(--border);
-    color: var(--text);
-    padding: 7px 10px;
-    font-size: 0.78rem;
   }
 
   .btn-secondary:hover {
-    border-color: var(--muted);
-    background: #222631;
+    background: #303746;
   }
 
-  .btn-danger {
-    background: transparent;
-    border: 1px solid #4a232a;
-    color: #ff6b7d;
-    padding: 6px 9px;
-    font-size: 0.75rem;
+  .btn-full {
+    width: 100%;
+    margin-top: 12px;
   }
 
-  .btn-danger:hover {
-    background: #3a1a20;
-  }
-
-  .preset-save-row {
+  /* Presets */
+  .preset-list {
+    margin-top: 10px;
+    max-height: 220px;
+    overflow-y: auto;
     display: flex;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-
-  .preset-save-row input[type="text"] {
-    flex: 1;
-  }
-
-  .preset-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-  }
-
-  .preset-actions {
-    display: flex;
+    flex-direction: column;
     gap: 6px;
   }
 
-  .preset-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    max-height: 300px;
-    overflow-y: auto;
-    padding-right: 2px;
-  }
-
-  .preset-item {
+  .preset-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 12px;
-    gap: 10px;
-    transition: border-color 0.15s;
-  }
-
-  .preset-item:hover {
-    border-color: #464e61;
+    gap: 8px;
   }
 
   .preset-info {
     display: flex;
     align-items: center;
     gap: 10px;
-    flex: 1;
     cursor: pointer;
+    flex: 1;
     min-width: 0;
   }
 
   .preset-swatch {
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 26px;
+    height: 26px;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.25);
     flex-shrink: 0;
   }
 
-  .preset-meta {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
+  .preset-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  .preset-name {
+  .preset-title {
     font-weight: 600;
-    font-size: 0.9rem;
-    white-space: nowrap;
+    font-size: 0.86rem;
+    display: block;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .preset-values {
-    font-size: 0.75rem;
+  .preset-meta {
+    font-size: 0.72rem;
     color: var(--muted);
     font-family: monospace;
-    margin-top: 2px;
   }
 
-  .preset-item-btns {
+  .preset-actions {
     display: flex;
-    gap: 6px;
-    flex-shrink: 0;
+    gap: 5px;
   }
 
-  .empty-state {
-    text-align: center;
-    padding: 20px;
-    color: var(--muted);
-    font-size: 0.85rem;
-    background: var(--panel);
-    border: 1px dashed var(--border);
-    border-radius: 8px;
+  .btn-xs {
+    padding: 4px 8px;
+    font-size: 0.72rem;
+    border-radius: 4px;
   }
 
-  .note {
-    font-size: 0.75rem;
-    color: var(--muted);
-    margin-top: 16px;
-    line-height: 1.4;
+  .io-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
   }
 </style>
 </head>
@@ -338,14 +436,14 @@
 
 <div class="container">
   <h1>Bagel's SSR Paint & Livery Tool</h1>
-  <p class="subtitle">Convert Hex or HSL to Static Shift Racing HSV Sliders & Save Custom Presets</p>
+  <p class="subtitle">Hex, HSL, Image Eyedropper & OEM Paint Codes to Static Shift Racing</p>
 
   <div class="preview-box" id="previewBox">
     <span class="preview-label" id="previewHex">#FF3E55</span>
     <span class="preview-label" id="previewRgb">RGB(255, 62, 85)</span>
   </div>
 
-  <!-- HEX INPUT -->
+  <!-- 1. HEX & PICKER -->
   <div class="section-title">1. Hex Code or Picker</div>
   <div class="input-row">
     <div class="input-group" style="flex: 0 0 auto;">
@@ -353,13 +451,52 @@
       <input type="color" id="colorPicker" value="#ff3e55">
     </div>
     <div class="input-group">
-      <label for="hexInput">Hex Code (e.g. #FF3E55 or 3A86FF)</label>
+      <label for="hexInput">Hex Code (e.g. #FF3E55)</label>
       <input type="text" id="hexInput" value="#FF3E55" maxlength="7" placeholder="#RRGGBB">
     </div>
   </div>
 
-  <!-- HSL INPUT -->
-  <div class="section-title">2. Standard HSL Input</div>
+  <!-- 2. IMAGE EYEDROPPER -->
+  <div class="section-title">
+    <span>2. Image Eyedropper</span>
+    <span style="font-size:0.7rem; text-transform:none;">Click or drag on image to sample</span>
+  </div>
+  <div class="dropper-box">
+    <div class="dropper-controls">
+      <label for="imageUpload" class="file-label">Upload Image</label>
+      <input type="file" id="imageUpload" accept="image/*" style="display:none;">
+      <button type="button" class="btn btn-secondary btn-xs" id="clearImgBtn" style="display:none;">Clear Image</button>
+      <span id="imgStatus" style="font-size:0.76rem; color:var(--muted);">No image loaded</span>
+    </div>
+    <div class="canvas-wrap" id="canvasWrap">
+      <canvas id="imageCanvas"></canvas>
+    </div>
+    <div class="loupe-bar" id="loupeBar">
+      <div>
+        <span class="loupe-swatch" id="loupeSwatch"></span>
+        <span id="loupeText" style="font-family:monospace;">Sampled: #FF3E55</span>
+      </div>
+      <span style="color:var(--muted); font-size:0.72rem;">Click/tap to lock colour</span>
+    </div>
+  </div>
+
+  <!-- 3. OEM PAINT CODE SEARCH -->
+  <div class="section-title">
+    <span>3. OEM Paint Code Lookup</span>
+    <span id="oemCount" style="font-size:0.7rem; text-transform:none;">102 codes</span>
+  </div>
+  <div class="filter-pills" id="regionPills">
+    <button type="button" class="pill active" data-region="ALL">All</button>
+    <button type="button" class="pill" data-region="JDM">JDM</button>
+    <button type="button" class="pill" data-region="EURO">Euro</button>
+    <button type="button" class="pill" data-region="USDM">USDM</button>
+    <button type="button" class="pill" data-region="AUS">Aussie</button>
+  </div>
+  <input type="text" id="oemSearch" placeholder="Search code, brand, or name (e.g. TV2, Bayside, NH-0, 02C)...">
+  <div class="oem-results" id="oemResults"></div>
+
+  <!-- 4. HSL INPUT -->
+  <div class="section-title">4. Standard HSL Input</div>
   <div class="input-row">
     <div class="input-group">
       <label for="hslH">Hue (0–360°)</label>
@@ -375,7 +512,7 @@
     </div>
   </div>
 
-  <!-- SSR OUTPUT -->
+  <!-- 5. SSR OUTPUT -->
   <div class="section-title">Static Shift Racing Sliders</div>
   <div class="ssr-output">
     <div class="slider-stat">
@@ -400,398 +537,1029 @@
       <span class="stat-value" id="ssrVal">100</span>
     </div>
   </div>
+  <button type="button" class="btn btn-full" id="copyBtn">Copy SSR Values</button>
 
-  <button class="btn btn-full" id="copyBtn">Copy SSR Values</button>
-
-  <!-- CUSTOM PRESET TOOL -->
+  <!-- 6. SAVED PRESETS -->
   <div class="section-title">
-    <span>Custom Colour Presets</span>
-    <span id="presetCount">0 Saved</span>
+    <span>Saved Colour Presets</span>
+    <span id="presetCount" style="font-size:0.7rem; text-transform:none;">0 saved</span>
   </div>
-
-  <div class="preset-save-row">
-    <input type="text" id="presetName" placeholder="Name this colour (e.g. Bayside Blue)..." maxlength="40">
-    <button class="btn" id="savePresetBtn">Save Preset</button>
+  <div class="input-row">
+    <input type="text" id="presetName" placeholder="Preset name (e.g. Bayside Blue)">
+    <button type="button" class="btn" id="savePresetBtn" style="white-space:nowrap;">Save Preset</button>
   </div>
-
-  <div class="preset-toolbar">
-    <span style="font-size: 0.75rem; color: var(--muted);">Click a saved colour to load it</span>
-    <div class="preset-actions">
-      <button class="btn btn-secondary" id="exportBtn">Export .json</button>
-      <button class="btn btn-secondary" id="importBtn">Import .json</button>
-      <input type="file" id="importFile" accept=".json" style="display: none;">
-    </div>
-  </div>
-
   <div class="preset-list" id="presetList"></div>
-
-  <p class="note">
-    <strong>Note:</strong> Static Shift Racing uses HSV (Brightness) rather than HSL (Lightness). Saved presets are stored automatically in your browser.
-  </p>
+  <div class="io-row">
+    <button type="button" class="btn btn-secondary btn-xs" id="exportBtn" style="flex:1;">Export Presets (.json)</button>
+    <label for="importFile" class="btn btn-secondary btn-xs" style="flex:1; text-align:center; margin:0; cursor:pointer;">Import Presets (.json)</label>
+    <input type="file" id="importFile" accept=".json" style="display:none;">
+  </div>
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const STORAGE_KEY = "bagels_ssr_colour_presets_v1";
+const OEM_CODES = [
+  // JDM
+    // === BATCH 1: JDM PERFORMANCE & MOTORSPORT (125 CODES) ===
+  // Nissan & Datsun
+  { r: "JDM", m: "Nissan", c: "TV2", n: "Bayside Blue Metallic (R34 GT-R)", h: "#0F52BA" },
+  { r: "JDM", m: "Nissan", c: "LP2", n: "Midnight Purple II (R34 GT-R V-Spec)", h: "#2B193D" },
+  { r: "JDM", m: "Nissan", c: "LX0", n: "Midnight Purple III (R34 GT-R V-Spec)", h: "#381B54" },
+  { r: "JDM", m: "Nissan", c: "LV4", n: "Midnight Purple I (R33 GT-R)", h: "#241433" },
+  { r: "JDM", m: "Nissan", c: "JW0", n: "Millennium Jade Metallic (R34 GT-R Nur)", h: "#7C8772" },
+  { r: "JDM", m: "Nissan", c: "EY0", n: "Silica Breath Metallic (R34 M-Spec Nur)", h: "#8E8778" },
+  { r: "JDM", m: "Nissan", c: "KH2", n: "Gun Grey Metallic (R32 GT-R)", h: "#43464B" },
+  { r: "JDM", m: "Nissan", c: "TH1", n: "Dark Blue Pearl (R32 GT-R)", h: "#162642" },
+  { r: "JDM", m: "Nissan", c: "326", n: "Crystal White (R32 / R33 / S13)", h: "#F4F5F2" },
+  { r: "JDM", m: "Nissan", c: "AH3", n: "Read Pearl Metallic (R32 / 180SX)", h: "#7A1622" },
+  { r: "JDM", m: "Nissan", c: "KL0", n: "Spark Silver Metallic (R32 / R33 GT-R)", h: "#A6ABB0" },
+  { r: "JDM", m: "Nissan", c: "732", n: "Black Pearl Metallic (R32 / R34 GT-R)", h: "#121316" },
+  { r: "JDM", m: "Nissan", c: "BN6", n: "Deep Marine Blue Pearl (R33 GT-R)", h: "#122B54" },
+  { r: "JDM", m: "Nissan", c: "KN6", n: "Dark Grey Pearl (R33 GT-R)", h: "#2E3236" },
+  { r: "JDM", m: "Nissan", c: "BT2", n: "Champion Blue (R33 GT-R LM Limited)", h: "#154A8A" },
+  { r: "JDM", m: "Nissan", c: "QM1", n: "Cloud White (R33 / R34 GT-R)", h: "#F2F3F0" },
+  { r: "JDM", m: "Nissan", c: "EV0", n: "Lightning Yellow (S15 Silvia / R34)", h: "#E5B800" },
+  { r: "JDM", m: "Nissan", c: "WK0", n: "Aspen White (S15 Silvia Spec-R)", h: "#F5F6F3" },
+  { r: "JDM", m: "Nissan", c: "AR2", n: "Active Red (S15 / 300ZX Z32)", h: "#C81422" },
+  { r: "JDM", m: "Nissan", c: "WV2", n: "Sparkling Silver Metallic (S15 / R34)", h: "#9DA3A8" },
+  { r: "JDM", m: "Nissan", c: "5G7", n: "Lime Green Two-Tone (S13 Silvia K's)", h: "#6B8E78" },
+  { r: "JDM", m: "Nissan", c: "DH0", n: "Dark Green Pearl (S13 Silvia)", h: "#183B32" },
+  { r: "JDM", m: "Nissan", c: "AN0", n: "Super Clear Red (S13 / 180SX)", h: "#C21825" },
+  { r: "JDM", m: "Nissan", c: "FN2", n: "Emerald Green Pearl (S14 Silvia)", h: "#14473A" },
+  { r: "JDM", m: "Nissan", c: "LS1", n: "Deep Fuchsia Purple (S14 Kouki)", h: "#3B1938" },
+  { r: "JDM", m: "Nissan", c: "A54", n: "Vibrant Red (350Z Z33)", h: "#C8102E" },
+  { r: "JDM", m: "Nissan", c: "B17", n: "Daytona Blue Metallic (350Z Z33)", h: "#104E8B" },
+  { r: "JDM", m: "Nissan", c: "E33", n: "Solar Orange Metallic (350Z Z33)", h: "#D9531E" },
+  { r: "JDM", m: "Nissan", c: "K51", n: "Blade Silver Metallic (R35 GT-R)", h: "#9FA4A9" },
+  { r: "JDM", m: "Datsun", c: "918", n: "Safari Gold / Orange (240Z S30)", h: "#D45B1A" },
+  { r: "JDM", m: "Datsun", c: "110", n: "Racing Red (240Z / BRE)", h: "#C41E24" },
+  { r: "JDM", m: "Datsun", c: "305", n: "Kilimanjaro White (240Z / 510)", h: "#F0EFEA" },
+  { r: "JDM", m: "Datsun", c: "907", n: "Racing Green (240Z / Fairlady Z)", h: "#123D2B" },
+  { r: "JDM", m: "Datsun", c: "115", n: "Midnight Blue (240Z / 280Z)", h: "#14243D" },
+  { r: "JDM", m: "Nissan", c: "463", n: "Silver Metallic (Hakosuka Skyline GT-R)", h: "#A3A8AD" },
+  { r: "JDM", m: "Nissan", c: "901", n: "White (Kenmeri Skyline GT-R)", h: "#F2F1EC" },
 
-    const colorPicker = document.getElementById("colorPicker");
-    const hexInput = document.getElementById("hexInput");
-    const hslH = document.getElementById("hslH");
-    const hslS = document.getElementById("hslS");
-    const hslL = document.getElementById("hslL");
+  // Toyota
+  { r: "JDM", m: "Toyota", c: "199", n: "Alpine Silver Metallic (A80 Supra)", h: "#9EA3A8" },
+  { r: "JDM", m: "Toyota", c: "8L5", n: "Royal Sapphire Pearl (A80 Supra)", h: "#142B66" },
+  { r: "JDM", m: "Toyota", c: "6P3", n: "Deep Jewel Green Pearl (A80 Supra)", h: "#0F382A" },
+  { r: "JDM", m: "Toyota", c: "3L2", n: "Renaissance Red (A80 Supra / MR2)", h: "#C8141E" },
+  { r: "JDM", m: "Toyota", c: "040", n: "Super White II (A80 Supra / AE86)", h: "#F5F6F4" },
+  { r: "JDM", m: "Toyota", c: "202", n: "Black Onyx (A80 Supra / JZX100)", h: "#101114" },
+  { r: "JDM", m: "Toyota", c: "1A1", n: "Anthracite Metallic (A80 Supra)", h: "#3A3E42" },
+  { r: "JDM", m: "Toyota", c: "6N9", n: "Dark Green Mica (A80 Supra / JZX100)", h: "#122E24" },
+  { r: "JDM", m: "Toyota", c: "576", n: "Super Bright Yellow (SW20 MR2 / Supra)", h: "#EAB800" },
+  { r: "JDM", m: "Toyota", c: "8J1", n: "Tropical Blue Metallic (SW20 MR2)", h: "#006A8E" },
+  { r: "JDM", m: "Toyota", c: "8B6", n: "Strong Blue Metallic (SW20 MR2)", h: "#15478A" },
+  { r: "JDM", m: "Toyota", c: "2T7", n: "High Tech Two-Tone Panda (AE86 Trueno)", h: "#F2F3F0" },
+  { r: "JDM", m: "Toyota", c: "2Y8", n: "High Flash Two-Tone Red/Black (AE86)", h: "#B81822" },
+  { r: "JDM", m: "Toyota", c: "8E3", n: "Dark Blue Mica (AE86 / Celica GT-Four)", h: "#182D54" },
+  { r: "JDM", m: "Toyota", c: "3E5", n: "Super Red II (ST185 / ST205 Celica)", h: "#C81422" },
+  { r: "JDM", m: "Toyota", c: "8K6", n: "Baltic Blue Metallic (ST205 Celica GT-Four)", h: "#1A4E6E" },
+  { r: "JDM", m: "Toyota", c: "057", n: "White Pearl Mica (JZX100 Chaser Tourer V)", h: "#F0EFEA" },
+  { r: "JDM", m: "Toyota", c: "1C0", n: "Millennium Silver Metallic (Altezza / IS300)", h: "#A8ADB2" },
+  { r: "JDM", m: "Toyota", c: "578", n: "Solar Yellow (Altezza RS200 / IS300)", h: "#F2C100" },
+  { r: "JDM", m: "Toyota", c: "8M6", n: "Spectra Blue Mica (Altezza / Celica)", h: "#143D7A" },
+  { r: "JDM", m: "Toyota", c: "558", n: "Sunburst Yellow (2000GT / Classic Celica)", h: "#E5B200" },
 
-    const previewBox = document.getElementById("previewBox");
-    const previewHex = document.getElementById("previewHex");
-    const previewRgb = document.getElementById("previewRgb");
+  // Honda & Acura
+  { r: "JDM", m: "Honda", c: "NH-0", n: "Championship White (NSX-R / DC2 / EK9)", h: "#F2EFE6" },
+  { r: "JDM", m: "Honda", c: "Y-56", n: "Phoenix Yellow (EK9 / DC2 Type R)", h: "#E8B800" },
+  { r: "JDM", m: "Honda", c: "R-81", n: "Milano Red (EG6 / DC2 / NSX)", h: "#C41224" },
+  { r: "JDM", m: "Honda", c: "B-66P", n: "Monte Carlo Blue Pearl (NSX / S2000)", h: "#113878" },
+  { r: "JDM", m: "Honda", c: "Y-52P", n: "Indy Yellow Pearl (NSX / S2000)", h: "#F2C100" },
+  { r: "JDM", m: "Honda", c: "R-77", n: "Formula Red (NA1 / NA2 NSX)", h: "#C8141E" },
+  { r: "JDM", m: "Honda", c: "GY-19M", n: "Lime Green Metallic (NSX-R GT)", h: "#7CA62A" },
+  { r: "JDM", m: "Honda", c: "B-513M", n: "Suzuka Blue Metallic (S2000 AP1)", h: "#5A8BB8" },
+  { r: "JDM", m: "Honda", c: "B-523P", n: "Royal Navy Blue Pearl (S2000 AP2)", h: "#142B54" },
+  { r: "JDM", m: "Honda", c: "B-545P", n: "Apex Blue Pearl (S2000 CR)", h: "#0E529E" },
+  { r: "JDM", m: "Honda", c: "NH-547", n: "Berlina Black (NSX / S2000 / ITR)", h: "#111215" },
+  { r: "JDM", m: "Honda", c: "NH-630M", n: "Silverstone Metallic (S2000 / NSX)", h: "#787D82" },
+  { r: "JDM", m: "Honda", c: "B-90P", n: "Supersonic Blue Pearl (EK9 / EM1 Si)", h: "#284B8C" },
+  { r: "JDM", m: "Honda", c: "B-95P", n: "Electron Blue Pearl (EM1 Civic Si)", h: "#144E9C" },
+  { r: "JDM", m: "Honda", c: "G-95P", n: "Clover Green Pearl (EK Civic)", h: "#12422B" },
+  { r: "JDM", m: "Honda", c: "BG-33P", n: "Paradise Blue-Green Pearl (EG6 SiR)", h: "#166E73" },
+  { r: "JDM", m: "Honda", c: "G-82P", n: "Cypress Green Pearl (DC2 / EK)", h: "#183B28" },
+  { r: "JDM", m: "Honda", c: "B-74P", n: "Adriatic Blue Pearl (BB6 Prelude)", h: "#18365C" },
+  { r: "JDM", m: "Honda", c: "B-507P", n: "Arctic Blue Pearl (DC5 Integra Type R)", h: "#144A8C" },
+  { r: "JDM", m: "Honda", c: "NH-583M", n: "Vogue Silver Metallic (EK9 / DC2)", h: "#A6ABB0" },
+  { r: "JDM", m: "Honda", c: "Y-49", n: "Barbados Yellow (CR-X SiR)", h: "#D9A814" },
 
-    const ssrHue = document.getElementById("ssrHue");
-    const ssrSat = document.getElementById("ssrSat");
-    const ssrVal = document.getElementById("ssrVal");
-    const copyBtn = document.getElementById("copyBtn");
+  // Mazda
+  { r: "JDM", m: "Mazda", c: "27A", n: "Velocity Red Mica (RX-8 / Mazdaspeed)", h: "#B81422" },
+  { r: "JDM", m: "Mazda", c: "24A", n: "Starry Blue Mica (FD3S RX-7 Spirit R)", h: "#183B73" },
+  { r: "JDM", m: "Mazda", c: "25E", n: "Titanium Grey Metallic (FD3S Spirit R)", h: "#5A5E63" },
+  { r: "JDM", m: "Mazda", c: "20P", n: "Innocent Blue Mica (FD3S RX-7 RS)", h: "#174A8C" },
+  { r: "JDM", m: "Mazda", c: "J9", n: "Competition Yellow Mica (FD3S RZ)", h: "#E5B000" },
+  { r: "JDM", m: "Mazda", c: "HZ", n: "Sunburst Yellow (FD3S RX-7 / MX-5)", h: "#F5C200" },
+  { r: "JDM", m: "Mazda", c: "SU", n: "Classic Red (NA Miata / FC3S RX-7)", h: "#C4161C" },
+  { r: "JDM", m: "Mazda", c: "12K", n: "Montego Blue Mica (FD3S RX-7)", h: "#163F47" },
+  { r: "JDM", m: "Mazda", c: "PZ", n: "Brilliant Black (FD3S / FC3S RX-7)", h: "#121316" },
+  { r: "JDM", m: "Mazda", c: "PT", n: "Chaste White (FD3S Spirit R / FC3S)", h: "#F2F3F0" },
+  { r: "JDM", m: "Mazda", c: "DU", n: "Mariner Blue (NA Miata)", h: "#0055A5" },
+  { r: "JDM", m: "Mazda", c: "HU", n: "Neo Green (NA Miata British Racing)", h: "#0B3B24" },
+  { r: "JDM", m: "Mazda", c: "18G", n: "Highlight Silver Metallic (FD3S / NB)", h: "#A8ADB2" },
+  { r: "JDM", m: "Mazda", c: "27B", n: "Winning Blue Metallic (RX-8 / MX-5)", h: "#14529E" },
+  { r: "JDM", m: "Mazda", c: "32S", n: "Galaxy Grey Mica (Mazdaspeed3 / RX-8)", h: "#4B4F54" },
+  { r: "JDM", m: "Mazda", c: "K8", n: "Tornado Silver Metallic (Savanna RX-3)", h: "#9EA3A8" },
 
-    const presetNameInput = document.getElementById("presetName");
-    const savePresetBtn = document.getElementById("savePresetBtn");
-    const presetList = document.getElementById("presetList");
-    const presetCount = document.getElementById("presetCount");
-    const exportBtn = document.getElementById("exportBtn");
-    const importBtn = document.getElementById("importBtn");
-    const importFile = document.getElementById("importFile");
+  // Subaru
+  { r: "JDM", m: "Subaru", c: "02C", n: "WR Blue Mica (GC8 / GDB WRX STI)", h: "#0E4296" },
+  { r: "JDM", m: "Subaru", c: "74F", n: "Sonic Blue Mica (Impreza 22B STI)", h: "#14479E" },
+  { r: "JDM", m: "Subaru", c: "555", n: "555 Rally Blue (GC8 WRC)", h: "#0E3F8A" },
+  { r: "JDM", m: "Subaru", c: "230", n: "Feather White (GC8 WRX STI)", h: "#F4F5F2" },
+  { r: "JDM", m: "Subaru", c: "51E", n: "Pure White (GDB WRX STI)", h: "#F5F6F4" },
+  { r: "JDM", m: "Subaru", c: "792", n: "Royal Silver Metallic (GC8 WRX)", h: "#9EA3A8" },
+  { r: "JDM", m: "Subaru", c: "86F", n: "Cool Grey Metallic (GC8 WRX)", h: "#6E7378" },
+  { r: "JDM", m: "Subaru", c: "01G", n: "Premium Silver Metallic (GDB STI)", h: "#A3A8AD" },
+  { r: "JDM", m: "Subaru", c: "18L", n: "Java Black Pearl (GDB WRX STI)", h: "#141518" },
+  { r: "JDM", m: "Subaru", c: "32J", n: "Obsidian Black Pearl (GDB / GRB STI)", h: "#111215" },
+  { r: "JDM", m: "Subaru", c: "95H", n: "Deep Blue Mica (Legacy B4 / STI)", h: "#14284B" },
+  { r: "JDM", m: "Subaru", c: "54A", n: "Cashmere Yellow (GC8 WRX STI)", h: "#E8C44A" },
 
-    let currentState = {
-      hex: "#FF3E55",
-      r: 255,
-      g: 62,
-      b: 85,
-      h: 98,
-      s: 76,
-      v: 100
+  // Mitsubishi
+  { r: "JDM", m: "Mitsubishi", c: "P85", n: "Palma Red (Evo IV / V / VI)", h: "#C81422" },
+  { r: "JDM", m: "Mitsubishi", c: "W83", n: "Scotia White (Evo IV / V / VI)", h: "#F2F3F0" },
+  { r: "JDM", m: "Mitsubishi", c: "T10", n: "French Blue (Evo VI / VII / VIII)", h: "#1A5296" },
+  { r: "JDM", m: "Mitsubishi", c: "Y77", n: "Dandelion Yellow (Evo V / VI)", h: "#E8B800" },
+  { r: "JDM", m: "Mitsubishi", c: "A69", n: "Satellite Silver Metallic (Evo VI)", h: "#9BA0A6" },
+  { r: "JDM", m: "Mitsubishi", c: "P26", n: "Orient Red Metallic (Evo X)", h: "#8A1522" },
+  { r: "JDM", m: "Mitsubishi", c: "T65", n: "Octane Blue Pearl (Evo X)", h: "#104E96" },
+  { r: "JDM", m: "Mitsubishi", c: "Y01", n: "Lightning Yellow (Evo VII / VIII)", h: "#F2C400" },
+  { r: "JDM", m: "Mitsubishi", c: "X42", n: "Labrador Black Pearl (Evo VIII / IX)", h: "#121316" },
+  { r: "JDM", m: "Mitsubishi", c: "A39", n: "Graphite Grey Pearl (Evo IX)", h: "#4A4E54" },
+  { r: "JDM", m: "Mitsubishi", c: "R71", n: "Passion Red (3000GT / GTO)", h: "#C4161C" },
+  { r: "JDM", m: "Mitsubishi", c: "G84", n: "Timber Green (3000GT / GTO)", h: "#163B2E" },
+  { r: "JDM", m: "Mitsubishi", c: "T88", n: "Fiji Blue (Starion / Conquest TSi)", h: "#144A8C" },
+
+  // Suzuki, Daihatsu & Isuzu
+  { r: "JDM", m: "Suzuki", c: "Z2S", n: "Silky Silver Metallic (Cappuccino)", h: "#A8ADB2" },
+  { r: "JDM", m: "Suzuki", c: "0CE", n: "Cordoba Red (Cappuccino)", h: "#B51924" },
+  { r: "JDM", m: "Suzuki", c: "0DG", n: "Dark Classic Jade Pearl (Cappuccino)", h: "#12382B" },
+  { r: "JDM", m: "Suzuki", c: "ZFT", n: "Champion Yellow (Swift Sport)", h: "#F2C100" },
+  { r: "JDM", m: "Daihatsu", c: "R40", n: "Shining Red (Copen / Mira TR-XX)", h: "#C81422" },
+  { r: "JDM", m: "Daihatsu", c: "S28", n: "Bright Silver Metallic (Copen)", h: "#A6ABB0" },
+  { r: "JDM", m: "Isuzu", c: "806", n: "Astral Silver (117 Coupe / Piazza)", h: "#9EA3A8" },
+  { r: "JDM", m: "Isuzu", c: "829", n: "Bellett Orange (Bellett GT-R)", h: "#D94E14" },
+
+  // EURO
+    // === BATCH 2: EURO PERFORMANCE & MOTORSPORT (125 CODES) ===
+  // BMW & MINI (22 Codes)
+  { r: "EURO", m: "BMW", c: "276", n: "Avus Blue Metallic (E36 M3 / E34 M5)", h: "#14346B" },
+  { r: "EURO", m: "BMW", c: "335", n: "Estoril Blue Metallic (E36 M3 / Z3 M)", h: "#14529E" },
+  { r: "EURO", m: "BMW", c: "314", n: "Hellrot / Bright Red (E36 M3)", h: "#C81422" },
+  { r: "EURO", m: "BMW", c: "300", n: "Alpine White III (E30 / E36 / E46 / E92 M3)", h: "#F4F5F2" },
+  { r: "EURO", m: "BMW", c: "354", n: "Titanium Silver Metallic (E46 M3)", h: "#A6ABB0" },
+  { r: "EURO", m: "BMW", c: "445", n: "Phoenix Yellow Metallic (E46 M3)", h: "#B89B14" },
+  { r: "EURO", m: "BMW", c: "448", n: "Laguna Seca Blue (E46 M3)", h: "#1E6B9C" },
+  { r: "EURO", m: "BMW", c: "405", n: "Imola Red II (E46 M3 / E39 M5)", h: "#B81422" },
+  { r: "EURO", m: "BMW", c: "416", n: "Carbon Black Metallic (E46 M3 / E39 M5)", h: "#121622" },
+  { r: "EURO", m: "BMW", c: "381", n: "Le Mans Blue Metallic (E39 M5 / E92 M3)", h: "#10428A" },
+  { r: "EURO", m: "BMW", c: "A29", n: "Silverstone II Metallic (E60 M5 / E92 M3)", h: "#9EA6AE" },
+  { r: "EURO", m: "BMW", c: "A30", n: "Interlagos Blue Metallic (E46 CS / E92 M3)", h: "#143878" },
+  { r: "EURO", m: "BMW", c: "297", n: "Montreal Blue Metallic (E36)", h: "#14345E" },
+  { r: "EURO", m: "BMW", c: "267", n: "Dakar Yellow (E36 M3)", h: "#E8C400" },
+  { r: "EURO", m: "BMW", c: "337", n: "Dakar Yellow II (E36 M3)", h: "#EBC800" },
+  { r: "EURO", m: "BMW", c: "181", n: "Diamond Black Metallic (E30 M3)", h: "#16181C" },
+  { r: "EURO", m: "BMW", c: "218", n: "Alpine White II (E30 M3)", h: "#F2F3F0" },
+  { r: "EURO", m: "BMW", c: "252", n: "Calypso Red Metallic (E30 / E36)", h: "#781824" },
+  { r: "EURO", m: "BMW", c: "287", n: "Mauritius Blue Metallic (E30 / E36)", h: "#143A73" },
+  { r: "EURO", m: "BMW", c: "002", n: "Colorado Orange (2002tii)", h: "#D95614" },
+  { r: "EURO", m: "BMW", c: "023", n: "Inka Orange (2002tii / 3.0 CSL)", h: "#E04E14" },
+  { r: "EURO", m: "MINI", c: "A67", n: "British Racing Green Metallic (Cooper S)", h: "#0E3B26" },
+
+  // Porsche (20 Codes)
+  { r: "EURO", m: "Porsche", c: "84A", n: "Guards Red (911 / 944 / 964 / 993 / 997)", h: "#C81422" },
+  { r: "EURO", m: "Porsche", c: "908", n: "Grand Prix White (911 Carrera RS / 964)", h: "#F4F5F2" },
+  { r: "EURO", m: "Porsche", c: "12G", n: "Speed Yellow (964 / 993 / 996 / 997)", h: "#F2C100" },
+  { r: "EURO", m: "Porsche", c: "39E", n: "Riviera Blue (993 Carrera RS)", h: "#1E88C8" },
+  { r: "EURO", m: "Porsche", c: "3AS", n: "Mexico Blue (911 Carrera RS 2.7 / 997)", h: "#1478C2" },
+  { r: "EURO", m: "Porsche", c: "3AE", n: "Maritime Blue (964 Carrera RS)", h: "#183B8A" },
+  { r: "EURO", m: "Porsche", c: "82N", n: "Rubystone Red / Ruby Star (964 RS)", h: "#B8286B" },
+  { r: "EURO", m: "Porsche", c: "38B", n: "Mint Green (964 Carrera RS)", h: "#68B89E" },
+  { r: "EURO", m: "Porsche", c: "2D8", n: "Signal Green (911 RS 2.7 / 997 GT3 RS)", h: "#289E38" },
+  { r: "EURO", m: "Porsche", c: "8C6", n: "GT3 RS Orange (997.1 GT3 RS)", h: "#E85D14" },
+  { r: "EURO", m: "Porsche", c: "92U", n: "Arctic Silver Metallic (993 / 996 / Carrera GT)", h: "#A3A8AD" },
+  { r: "EURO", m: "Porsche", c: "22E", n: "Oak Green Metallic (911 Turbo / 964)", h: "#183828" },
+  { r: "EURO", m: "Porsche", c: "37W", n: "Midnight Blue Metallic (964 / 993)", h: "#142442" },
+  { r: "EURO", m: "Porsche", c: "39C", n: "Iris Blue Pearl (993 Turbo)", h: "#24386E" },
+  { r: "EURO", m: "Porsche", c: "92M", n: "Polar Silver Metallic (993 Turbo)", h: "#AEB4BA" },
+  { r: "EURO", m: "Porsche", c: "84R", n: "Arena Red Metallic (993 Turbo)", h: "#6E1622" },
+  { r: "EURO", m: "Porsche", c: "156", n: "Signal Orange (914-6 / 911 RS 2.7)", h: "#E04E14" },
+  { r: "EURO", m: "Porsche", c: "328", n: "Gulf Blue (917K / 911)", h: "#6EA8D8" },
+  { r: "EURO", m: "Porsche", c: "019", n: "Gulf Orange (917K / 911)", h: "#E85D14" },
+  { r: "EURO", m: "Porsche", c: "741", n: "Black (930 Turbo / Blackbird)", h: "#111215" },
+
+  // Ferrari & Lamborghini (18 Codes)
+  { r: "EURO", m: "Ferrari", c: "300", n: "Rosso Corsa (F40 / F50 / Enzo / 360 / 430)", h: "#D4001A" },
+  { r: "EURO", m: "Ferrari", c: "322", n: "Rosso Corsa Metallic / Scuderia (F430)", h: "#DC1422" },
+  { r: "EURO", m: "Ferrari", c: "323", n: "Rosso Scuderia (430 Scuderia / F1)", h: "#E61E24" },
+  { r: "EURO", m: "Ferrari", c: "102", n: "Giallo Modena (355 / 360 / Enzo)", h: "#F5C400" },
+  { r: "EURO", m: "Ferrari", c: "522", n: "Blu Tour de France (550 Maranello / 360)", h: "#14346E" },
+  { r: "EURO", m: "Ferrari", c: "503", n: "Blu Pozzi (355 / 550 / 612)", h: "#121E38" },
+  { r: "EURO", m: "Ferrari", c: "101", n: "Argento Nurburgring (360 / 575M)", h: "#A8ADB2" },
+  { r: "EURO", m: "Ferrari", c: "700", n: "Grigio Titanio (355 / 360 / F430)", h: "#686E74" },
+  { r: "EURO", m: "Ferrari", c: "1250", n: "Nero Daytona (360 / F430 / 599)", h: "#141518" },
+  { r: "EURO", m: "Ferrari", c: "100", n: "Bianco Avus (Testarossa / F430)", h: "#F4F5F2" },
+  { r: "EURO", m: "Lamborghini", c: "0058", n: "Giallo Orion (Murcielago / Gallardo)", h: "#F2B800" },
+  { r: "EURO", m: "Lamborghini", c: "0059", n: "Arancio Borealis (Murcielago / Gallardo)", h: "#E85614" },
+  { r: "EURO", m: "Lamborghini", c: "0077", n: "Verde Ithaca (Murcielago / Gallardo)", h: "#68B828" },
+  { r: "EURO", m: "Lamborghini", c: "0062", n: "Blu Cepheus (Murcielago / Gallardo)", h: "#1E78C8" },
+  { r: "EURO", m: "Lamborghini", c: "0069", n: "Grigio Telesto (Gallardo Superleggera)", h: "#52565B" },
+  { r: "EURO", m: "Lamborghini", c: "0056", n: "Nero Aldebaran (Diablo / Murcielago)", h: "#111215" },
+  { r: "EURO", m: "Lamborghini", c: "2125", n: "Bianco Countach (Countach LP5000 QV)", h: "#F2F3F0" },
+  { r: "EURO", m: "Lamborghini", c: "2214", n: "Arancio Miura (Miura P400 SV)", h: "#E04E14" },
+
+  // British Racing Greens & British Performance (18 Codes)
+  { r: "EURO", m: "Lotus", c: "B04", n: "British Racing Green (Elise / Exige / Esprit)", h: "#0E3B26" },
+  { r: "EURO", m: "Lotus", c: "B11", n: "Lotus Racing Green Metallic (Exige S)", h: "#12472E" },
+  { r: "EURO", m: "Lotus", c: "B21", n: "Norfolk Mustard Yellow (Esprit V8 / Elise)", h: "#E8C000" },
+  { r: "EURO", m: "Lotus", c: "B35", n: "Krypton Green (Exige S2)", h: "#68B828" },
+  { r: "EURO", m: "Lotus", c: "B121", n: "Chrome Orange (Exige S2)", h: "#E85D14" },
+  { r: "EURO", m: "Jaguar", c: "HGD", n: "British Racing Green (XJ220 / XKR / E-Type)", h: "#0B3322" },
+  { r: "EURO", m: "Jaguar", c: "HFB", n: "Jaguar Racing Green Metallic (XKR-S)", h: "#10422C" },
+  { r: "EURO", m: "Jaguar", c: "JHE", n: "Spa Silver Metallic (XJ220)", h: "#9EA3A8" },
+  { r: "EURO", m: "Jaguar", c: "JHM", n: "Le Mans Blue Metallic (XJ220)", h: "#14346B" },
+  { r: "EURO", m: "Aston Martin", c: "1305", n: "Aston Martin Racing Green (DBR9 / Vantage)", h: "#0E3D28" },
+  { r: "EURO", m: "Aston Martin", c: "1289", n: "California Sage Green (DB5 / V8 Vantage)", h: "#5A6E5E" },
+  { r: "EURO", m: "Aston Martin", c: "1312", n: "Silver Birch (DB5 / DBS)", h: "#9EA3A8" },
+  { r: "EURO", m: "Aston Martin", c: "1452", n: "Meteorite Silver (DBS / Vanquish)", h: "#4B4F54" },
+  { r: "EURO", m: "Bentley", c: "9531", n: "British Racing Green (Continental GT / Speed 8)", h: "#0B3020" },
+  { r: "EURO", m: "McLaren", c: "935", n: "Papaya Spark / Historic Orange (F1 / M8D)", h: "#E85D14" },
+  { r: "EURO", m: "McLaren", c: "930", n: "Magnesium Silver (McLaren F1)", h: "#8E9398" },
+  { r: "EURO", m: "TVR", c: "P422", n: "Reflex Purple / Chameleon (Tuscan / Sagaris)", h: "#3B1E54" },
+  { r: "EURO", m: "Land Rover", c: "618", n: "Coniston Green (Defender 90 / Camel Trophy)", h: "#18422C" },
+
+  // Mercedes-Benz, Audi & Volkswagen (21 Codes)
+  { r: "EURO", m: "Mercedes-Benz", c: "744", n: "Brilliant Silver Metallic (190E Evo II / CLK GTR)", h: "#A6ABB0" },
+  { r: "EURO", m: "Mercedes-Benz", c: "199", n: "Blue-Black Metallic (190E 2.5-16 Evo II / 500E)", h: "#1E2228" },
+  { r: "EURO", m: "Mercedes-Benz", c: "040", n: "Black (C63 AMG / SL65 Black Series)", h: "#111215" },
+  { r: "EURO", m: "Mercedes-Benz", c: "775", n: "Iridium Silver Metallic (SLR McLaren / SLS)", h: "#9EA3A8" },
+  { r: "EURO", m: "Mercedes-Benz", c: "590", n: "Fire Opal Red (C63 AMG)", h: "#C81422" },
+  { r: "EURO", m: "Mercedes-Benz", c: "650", n: "Calcite White (C63 AMG Black Series)", h: "#F4F5F2" },
+  { r: "EURO", m: "Audi", c: "LZ5M", n: "Nogaro Blue Pearl (RS2 Avant / B5 S4)", h: "#144E9E" },
+  { r: "EURO", m: "Audi", c: "LZ3M", n: "Misano Red Pearl (RS4 / RS6 / R8)", h: "#C81422" },
+  { r: "EURO", m: "Audi", c: "LY1C", n: "Imola Yellow (B5 S4 / B7 RS4)", h: "#E8B800" },
+  { r: "EURO", m: "Audi", c: "LZ7L", n: "Daytona Grey Pearl (B7 RS4 / R8)", h: "#4A4E54" },
+  { r: "EURO", m: "Audi", c: "LZ5L", n: "Ming Blue Pearl (S3 / S4)", h: "#14264A" },
+  { r: "EURO", m: "Audi", c: "LZ5F", n: "Sprint Blue Pearl (B7 RS4 / R8)", h: "#1456A8" },
+  { r: "EURO", m: "Audi", c: "LY9B", n: "Brilliant Black (Ur-Quattro / R8)", h: "#111215" },
+  { r: "EURO", m: "Audi", c: "L0B9", n: "Alpine White (Sport Quattro)", h: "#F2F3F0" },
+  { r: "EURO", m: "Volkswagen", c: "LY3D", n: "Tornado Red (Golf GTI Mk2 / Mk4 / Mk5)", h: "#C81422" },
+  { r: "EURO", m: "Volkswagen", c: "LD5W", n: "Deep Blue Pearl (Golf R32 Mk4 / Mk5)", h: "#143878" },
+  { r: "EURO", m: "Volkswagen", c: "LC9Z", n: "Black Magic Pearl (Golf GTI / Corrado VR6)", h: "#121316" },
+  { r: "EURO", m: "Volkswagen", c: "LA7W", n: "Reflex Silver Metallic (Golf R32 / GTI)", h: "#A6ABB0" },
+  { r: "EURO", m: "Volkswagen", c: "LC6V", n: "Green Pearl (Corrado G60 / VR6)", h: "#143B2E" },
+  { r: "EURO", m: "Volkswagen", c: "LG6S", n: "Sequoiagreen Metallic (Golf GTI Mk1)", h: "#244A36" },
+  { r: "EURO", m: "SEAT", c: "S1H", n: "Ovni Yellow (Leon Cupra R)", h: "#E8C000" },
+
+  // Italian, French, Ford Europe & Swedish Motorsport Icons (26 Codes)
+  { r: "EURO", m: "Alfa Romeo", c: "130", n: "Rosso Alfa (GTV6 / 155 V6 TI DTM / GTA)", h: "#C81422" },
+  { r: "EURO", m: "Alfa Romeo", c: "501", n: "Rosso Alfa (Giulia Sprint GTA / 75)", h: "#C41822" },
+  { r: "EURO", m: "Alfa Romeo", c: "210", n: "Bianco Ghiaccio (147 GTA / 156 GTA)", h: "#F4F5F2" },
+  { r: "EURO", m: "Alfa Romeo", c: "428", n: "Blu Cosmo Metallic (156 GTA / GTV)", h: "#18345E" },
+  { r: "EURO", m: "Lancia", c: "140", n: "Rosso Monza (Delta HF Integrale Evo)", h: "#C4161C" },
+  { r: "EURO", m: "Lancia", c: "210", n: "Bianco Martini (Delta Integrale / 037)", h: "#F4F5F2" },
+  { r: "EURO", m: "Lancia", c: "224", n: "Giallo Ginestra (Delta Integrale Evo II)", h: "#E8C000" },
+  { r: "EURO", m: "Lancia", c: "438", n: "Blu Lagos (Delta Integrale Evo II)", h: "#184A6E" },
+  { r: "EURO", m: "Lancia", c: "358", n: "Verde York (Delta Integrale Evo I)", h: "#143828" },
+  { r: "EURO", m: "Fiat", c: "111", n: "Rosso Corsa (Abarth 500 / 131 Abarth)", h: "#C81422" },
+  { r: "EURO", m: "Fiat", c: "258", n: "Giallo Ginestra (Fiat Coupe 20V Turbo)", h: "#E8B800" },
+  { r: "EURO", m: "Ford Europe", c: "B3", n: "Imperial Blue (Escort RS Cosworth / Focus RS)", h: "#143E8A" },
+  { r: "EURO", m: "Ford Europe", c: "Q2", n: "Mallard Green (Escort RS Cosworth)", h: "#143B38" },
+  { r: "EURO", m: "Ford Europe", c: "V9", n: "Moonstone Blue (Sierra RS500 Cosworth)", h: "#5A6E82" },
+  { r: "EURO", m: "Ford Europe", c: "B", n: "Diamond White (Sierra RS500 / Escort RS)", h: "#F4F5F2" },
+  { r: "EURO", m: "Ford Europe", c: "6FSE", n: "Electric Orange (Focus ST225)", h: "#E85614" },
+  { r: "EURO", m: "Ford Europe", c: "8CWA", n: "Ultimate Green (Focus RS Mk2)", h: "#54A828" },
+  { r: "EURO", m: "Ford Europe", c: "7VTA", n: "Performance Blue (Focus RS Mk1 / Mk2)", h: "#104E9C" },
+  { r: "EURO", m: "Renault", c: "449", n: "Sports Blue / Monaco Blue (Clio Williams)", h: "#143878" },
+  { r: "EURO", m: "Renault", c: "J37", n: "Liquid Yellow (Clio V6 / Megane R26.R)", h: "#E8C400" },
+  { r: "EURO", m: "Renault", c: "432", n: "Methyl Blue / Racing Blue (Clio 182 Cup)", h: "#1456A8" },
+  { r: "EURO", m: "Peugeot", c: "P0WP", n: "Bianca White (205 T16 / 205 GTI)", h: "#F4F5F2" },
+  { r: "EURO", m: "Peugeot", c: "P3KB", n: "Vallelunga Red (205 GTI 1.9)", h: "#C81422" },
+  { r: "EURO", m: "Peugeot", c: "M0MY", n: "Miami Blue (205 GTI 1.9)", h: "#14569E" },
+  { r: "EURO", m: "Volvo", c: "607", n: "Cream Yellow (850 T-5R)", h: "#E8D478" },
+  { r: "EURO", m: "Volvo", c: "428", n: "Rebel Blue / Polestar Blue (850 BTCC / S60)", h: "#0068B8" },
+
+  // USDM
+  // === BATCH 3: USDM PERFORMANCE & MUSCLE (125 CODES) ===
+  // Ford, Shelby & SVT (32 Codes)
+  { r: "USDM", m: "Ford", c: "D1", n: "Grabber Blue (Mustang Boss 302 / Shelby GT500)", h: "#1E88C8" },
+  { r: "USDM", m: "Ford", c: "J", n: "Grabber Green (Mustang Boss 302 / Mach 1)", h: "#289E38" },
+  { r: "USDM", m: "Ford", c: "Z", n: "Grabber Orange (Mustang Boss 302 / Twister)", h: "#E85D14" },
+  { r: "USDM", m: "Ford", c: "D", n: "Grabber Yellow (Mustang Boss 302 / Mach 1)", h: "#F2C100" },
+  { r: "USDM", m: "Ford", c: "T", n: "Candyapple Red (Mustang Shelby GT350 / GT500)", h: "#B81422" },
+  { r: "USDM", m: "Ford", c: "M", n: "Wimbledon White (Shelby GT350 / Ford GT40)", h: "#F2EFE6" },
+  { r: "USDM", m: "Ford", c: "Y", n: "Highland Green (1968 Mustang GT390 Bullitt)", h: "#143428" },
+  { r: "USDM", m: "Ford", c: "3", n: "Calypso Coral (Mustang Boss 302 / 429)", h: "#E03A1E" },
+  { r: "USDM", m: "Ford", c: "E4", n: "Vermilion Red (SVT Lightning / Cobra)", h: "#C81422" },
+  { r: "USDM", m: "Ford", c: "D3", n: "Torch Red (2003-2004 SVT Cobra / Mach 1)", h: "#C41622" },
+  { r: "USDM", m: "Ford", c: "B7", n: "Zinc Yellow (2003 SVT Cobra / Mach 1)", h: "#E8C400" },
+  { r: "USDM", m: "Ford", c: "CY", n: "Screaming Yellow (2004 SVT Cobra / Mach 1)", h: "#F2C800" },
+  { r: "USDM", m: "Ford", c: "G2", n: "Redfire Metallic (2003-2004 SVT Cobra)", h: "#781422" },
+  { r: "USDM", m: "Ford", c: "KM", n: "Sonic Blue Pearl (2003-2004 SVT Cobra)", h: "#144E9E" },
+  { r: "USDM", m: "Ford", c: "G9", n: "Mystichrome Metallic (2004 SVT Cobra)", h: "#2B386E" },
+  { r: "USDM", m: "Ford", c: "LF", n: "Mystic Metallic (1996 SVT Cobra)", h: "#1E4A3E" },
+  { r: "USDM", m: "Ford", c: "EY", n: "Bright Atlantic Blue (1998 SVT Cobra)", h: "#1462B8" },
+  { r: "USDM", m: "Ford", c: "B6", n: "Babylon / Baboon Blue (Foxbody Mustang GT)", h: "#184A8C" },
+  { r: "USDM", m: "Ford", c: "7B", n: "Emerald Green Metallic (Foxbody Mustang LX 5.0)", h: "#123D32" },
+  { r: "USDM", m: "Ford", c: "2R", n: "Vibrant Red (1993 SVT Cobra / Foxbody)", h: "#C81822" },
+  { r: "USDM", m: "Ford", c: "RD", n: "Teal Metallic (1993 SVT Cobra)", h: "#145C66" },
+  { r: "USDM", m: "Ford", c: "UA", n: "Ebony Black (SVT Cobra / Mustang GT / GT500)", h: "#111215" },
+  { r: "USDM", m: "Ford", c: "YN", n: "Silver Metallic (2003 SVT Cobra / Ford GT)", h: "#A6ABB0" },
+  { r: "USDM", m: "Ford", c: "G5", n: "Alloy Metallic (Shelby GT500)", h: "#4B4F54" },
+  { r: "USDM", m: "Ford", c: "PX", n: "Dark Highland Green (2001 / 2008 Mustang Bullitt)", h: "#122E24" },
+  { r: "USDM", m: "Ford", c: "G4", n: "Mark IV Red (2005-2006 Ford GT)", h: "#C81422" },
+  { r: "USDM", m: "Ford", c: "B1", n: "Midnight Blue Metallic (2005-2006 Ford GT)", h: "#14284B" },
+  { r: "USDM", m: "Ford", c: "A1", n: "Centennial White (2005-2006 Ford GT)", h: "#F4F5F2" },
+  { r: "USDM", m: "Ford", c: "T8", n: "Tungsten Grey Metallic (2006 Ford GT)", h: "#52565B" },
+  { r: "USDM", m: "Ford", c: "M1", n: "Heritage Gulf Blue (2006 Ford GT Heritage)", h: "#6EA8D8" },
+  { r: "USDM", m: "Ford", c: "G3", n: "Vista Blue Metallic (Shelby GT500 / Mustang GT)", h: "#14428A" },
+  { r: "USDM", m: "Ford", c: "L6", n: "Kona Blue Metallic (Mustang GT / Boss 302)", h: "#122B5E" },
+
+  // Chevrolet (34 Codes)
+  { r: "USDM", m: "Chevrolet", c: "72", n: "Hugger Orange (1969 Camaro Z28 / SS)", h: "#E85614" },
+  { r: "USDM", m: "Chevrolet", c: "51", n: "Daytona Yellow (1969 Camaro Z28 / Chevelle SS)", h: "#F2C400" },
+  { r: "USDM", m: "Chevrolet", c: "71", n: "LeMans Blue Metallic (1969 Camaro / Corvette)", h: "#1456A8" },
+  { r: "USDM", m: "Chevrolet", c: "52", n: "Garnet Red (1969 Camaro SS / Chevelle SS)", h: "#B81422" },
+  { r: "USDM", m: "Chevrolet", c: "79", n: "Rallye Green Metallic (1969 Camaro Z28)", h: "#143D28" },
+  { r: "USDM", m: "Chevrolet", c: "76", n: "Butternut Yellow (1967-1969 Camaro / Nova)", h: "#E8D88A" },
+  { r: "USDM", m: "Chevrolet", c: "45", n: "Green Mist Metallic (1970 Chevelle SS 454)", h: "#5A7866" },
+  { r: "USDM", m: "Chevrolet", c: "75", n: "Cranberry Red (1970 Chevelle SS 454)", h: "#B81822" },
+  { r: "USDM", m: "Chevrolet", c: "26", n: "Mulsanne Blue Metallic (1970 Chevelle / Corvette)", h: "#1E5C9E" },
+  { r: "USDM", m: "Chevrolet", c: "976", n: "Nassau Blue Metallic (C2 / C5 Corvette)", h: "#1468B8" },
+  { r: "USDM", m: "Chevrolet", c: "988", n: "Marlboro Maroon (1967 Corvette 427)", h: "#5E1422" },
+  { r: "USDM", m: "Chevrolet", c: "900", n: "Tuxedo Black (Corvette / Camaro / Chevelle)", h: "#111215" },
+  { r: "USDM", m: "Chevrolet", c: "972", n: "Ermine White (C2 / C3 Corvette)", h: "#F2F1EC" },
+  { r: "USDM", m: "Chevrolet", c: "70", n: "Torch Red (C4 / C5 / C6 Corvette)", h: "#C81422" },
+  { r: "USDM", m: "Chevrolet", c: "79U", n: "Millennium Yellow (C5 Corvette Z06)", h: "#F2C400" },
+  { r: "USDM", m: "Chevrolet", c: "21U", n: "Electron Blue Metallic (C5 Corvette Z06)", h: "#144A9C" },
+  { r: "USDM", m: "Chevrolet", c: "19U", n: "LeMans Blue Metallic (C5 Z06 Commemorative / C6)", h: "#143878" },
+  { r: "USDM", m: "Chevrolet", c: "12U", n: "Quicksilver Metallic (C5 Corvette Z06)", h: "#A6ABB0" },
+  { r: "USDM", m: "Chevrolet", c: "45U", n: "Velocity Yellow Tintcoat (C6 Corvette Z06 / ZR1)", h: "#F5C800" },
+  { r: "USDM", m: "Chevrolet", c: "85U", n: "Jetstream Blue Metallic (C6 Corvette ZR1 / Z06)", h: "#1E78C8" },
+  { r: "USDM", m: "Chevrolet", c: "83U", n: "Atomic Orange Metallic (C6 Corvette Z06)", h: "#D95614" },
+  { r: "USDM", m: "Chevrolet", c: "57U", n: "Cyber Grey Metallic (C6 Corvette ZR1 / Z06)", h: "#4A4E54" },
+  { r: "USDM", m: "Chevrolet", c: "89U", n: "Crystal Red Tintcoat (C6 Corvette ZR1)", h: "#7A1422" },
+  { r: "USDM", m: "Chevrolet", c: "10U", n: "Arctic White (C5 / C6 Corvette / Camaro SS)", h: "#F4F5F2" },
+  { r: "USDM", m: "Chevrolet", c: "41U", n: "Black (C5 / C6 Corvette / Camaro Z28)", h: "#101114" },
+  { r: "USDM", m: "Chevrolet", c: "81U", n: "Bright Rally Red (Camaro Z28 / SS)", h: "#C81422" },
+  { r: "USDM", m: "Chevrolet", c: "28U", n: "Navy Blue Metallic (4th Gen Camaro Z28 / SS)", h: "#14284B" },
+  { r: "USDM", m: "Chevrolet", c: "37U", n: "Mystic Teal Metallic (4th Gen Camaro Z28)", h: "#145A66" },
+  { r: "USDM", m: "Chevrolet", c: "80U", n: "Quasar Blue Metallic (3rd / 4th Gen Camaro Z28)", h: "#144E9E" },
+  { r: "USDM", m: "Chevrolet", c: "74U", n: "Victory Red (Cobalt SS / Camaro SS)", h: "#C81422" },
+  { r: "USDM", m: "Chevrolet", c: "34U", n: "Arrival Blue Metallic (Silverado SS / Cobalt SS)", h: "#1456A8" },
+  { r: "USDM", m: "Chevrolet", c: "GBA", n: "Black (5th Gen Camaro SS / Z28)", h: "#111215" },
+  { r: "USDM", m: "Chevrolet", c: "GCO", n: "Rally Yellow (5th Gen Camaro SS)", h: "#F2C100" },
+  { r: "USDM", m: "Chevrolet", c: "GC6", n: "Synergy Green Metallic (2010 Camaro)", h: "#289E38" },
+
+  // Dodge, Plymouth & Mopar High-Impact (32 Codes)
+  { r: "USDM", m: "Dodge", c: "FJ5", n: "Sublime Green (Challenger R/T / Charger)", h: "#68B828" },
+  { r: "USDM", m: "Plymouth", c: "FJ5", n: "Limelight Green (Hemi Cuda / Road Runner)", h: "#68B828" },
+  { r: "USDM", m: "Dodge", c: "EV2", n: "Hemi Orange (Charger R/T / Challenger / Daytona)", h: "#E84E14" },
+  { r: "USDM", m: "Plymouth", c: "EV2", n: "Tor-Red (Hemi Cuda / Superbird / Duster)", h: "#E84E14" },
+  { r: "USDM", m: "Dodge", c: "FC7", n: "Plum Crazy Purple (Challenger / Charger / Super Bee)", h: "#4A226E" },
+  { r: "USDM", m: "Plymouth", c: "FC7", n: "In-Violet Metallic (Hemi Cuda / Road Runner)", h: "#4A226E" },
+  { r: "USDM", m: "Dodge", c: "FM3", n: "Panther Pink (Challenger T/A / Charger)", h: "#D94E8A" },
+  { r: "USDM", m: "Plymouth", c: "FM3", n: "Moulin Rouge (Barracuda / Duster 340)", h: "#D94E8A" },
+  { r: "USDM", m: "Dodge", c: "FJ6", n: "Go Mango (Charger R/T / Super Bee)", h: "#E04A14" },
+  { r: "USDM", m: "Plymouth", c: "FJ6", n: "Vitamin C Orange (Cuda / Superbird / Road Runner)", h: "#E04A14" },
+  { r: "USDM", m: "Dodge", c: "FY1", n: "Top Banana Yellow (Challenger / Charger)", h: "#F2C400" },
+  { r: "USDM", m: "Plymouth", c: "FY1", n: "Lemon Twist Yellow (Cuda / Superbird)", h: "#F2C400" },
+  { r: "USDM", m: "Dodge", c: "GY3", n: "Citron Yella (1971 Charger / Super Bee)", h: "#B8C414" },
+  { r: "USDM", m: "Plymouth", c: "GY3", n: "Curious Yellow (1971 Hemi Cuda / Road Runner)", h: "#B8C414" },
+  { r: "USDM", m: "Dodge", c: "EB5", n: "Bright Blue Metallic (Charger / Challenger)", h: "#1456A8" },
+  { r: "USDM", m: "Plymouth", c: "EB5", n: "Blue Fire Metallic (Cuda / Road Runner)", h: "#1456A8" },
+  { r: "USDM", m: "Plymouth", c: "999", n: "Petty Blue / Corporate Blue (Superbird / Road Runner)", h: "#2888C8" },
+  { r: "USDM", m: "Dodge", c: "FE5", n: "Rallye Red (Charger / Challenger / Dart)", h: "#C81422" },
+  { r: "USDM", m: "Dodge", c: "TX9", n: "Black Velvet (Charger / Challenger / Viper)", h: "#111215" },
+  { r: "USDM", m: "Dodge", c: "EW1", n: "Alpine White (Challenger / Charger)", h: "#F4F5F2" },
+  { r: "USDM", m: "Dodge", c: "PRN", n: "Viper Red (Viper RT/10 / GTS / SRT-10)", h: "#C81422" },
+  { r: "USDM", m: "Dodge", c: "PBE", n: "Viper GTS Blue (1996-1997 Viper GTS)", h: "#14429E" },
+  { r: "USDM", m: "Dodge", c: "PYR", n: "Viper Race Yellow (Viper GTS / ACR)", h: "#F2C100" },
+  { r: "USDM", m: "Dodge", c: "PSB", n: "Viper Bright Silver Metallic (Viper GTS)", h: "#A6ABB0" },
+  { r: "USDM", m: "Dodge", c: "PGR", n: "Emerald Green Pearl (1994-1995 Viper RT/10)", h: "#123D2B" },
+  { r: "USDM", m: "Dodge", c: "PGG", n: "Snakeskin Green Pearl (2008-2010 Viper SRT-10)", h: "#4D9E28" },
+  { r: "USDM", m: "Dodge", c: "PVG", n: "Very Viper Orange (2008 Viper SRT-10)", h: "#E85614" },
+  { r: "USDM", m: "Dodge", c: "PB8", n: "Electric Blue Pearl (Neon SRT-4 / Viper)", h: "#1452A8" },
+  { r: "USDM", m: "Dodge", c: "PYB", n: "Solar Yellow (Neon SRT-4)", h: "#F2C400" },
+  { r: "USDM", m: "Dodge", c: "PR4", n: "Flame Red (Neon SRT-4 / Ram SRT-10)", h: "#C81422" },
+  { r: "USDM", m: "Dodge", c: "PXT", n: "Brilliant Black Crystal (Charger / Challenger SRT8)", h: "#121316" },
+  { r: "USDM", m: "Dodge", c: "PL4", n: "Detonator Yellow (2009-2010 Challenger R/T)", h: "#F2C400" },
+
+  // Pontiac, Buick, Oldsmobile, Cadillac, Chrysler & Jeep (27 Codes)
+
+  { r: "USDM", m: "Pontiac", c: "19", n: "Starlight Black (Firebird Trans Am Bandit)", h: "#111215" },
+  { r: "USDM", m: "Pontiac", c: "50", n: "Solar Gold (1978 Firebird Trans Am Y88)", h: "#C8A44A" },
+  { r: "USDM", m: "Pontiac", c: "24", n: "Lucerne Blue Metallic (1970-1972 Trans Am)", h: "#144E9E" },
+  { r: "USDM", m: "Pontiac", c: "11", n: "Cameo White (1970-1974 Firebird Trans Am)", h: "#F2F1EC" },
+  { r: "USDM", m: "Pontiac", c: "75", n: "Buccaneer Red (1973-1974 Trans Am SD-455)", h: "#B81822" },
+  { r: "USDM", m: "Pontiac", c: "72", n: "Orbit Orange (1970 GTO Judge)", h: "#E85614" },
+  { r: "USDM", m: "Pontiac", c: "67", n: "Carousel Red (1969 GTO Judge)", h: "#D94E1E" },
+  { r: "USDM", m: "Pontiac", c: "48", n: "Verdoro Green Metallic (1968-1969 GTO)", h: "#3B543E" },
+  { r: "USDM", m: "Pontiac", c: "40", n: "Arctic White (1989 Turbo Trans Am Pace Car)", h: "#F4F5F2" },
+  { r: "USDM", m: "Pontiac", c: "81", n: "Bright Red (Firebird Formula / WS6)", h: "#C81422" },
+  { r: "USDM", m: "Pontiac", c: "28", n: "Navy Blue Metallic (Trans Am WS6)", h: "#14284B" },
+  { r: "USDM", m: "Pontiac", c: "54", n: "Collector Edition Yellow (2002 Trans Am WS6)", h: "#F2C400" },
+  { r: "USDM", m: "Pontiac", c: "63U", n: "Torrid Red (2004-2006 GTO / G8 GXP)", h: "#C81422" },
+  { r: "USDM", m: "Pontiac", c: "24U", n: "Impulse Blue Metallic (2004-2006 GTO)", h: "#174A8C" },
+  { r: "USDM", m: "Pontiac", c: "56U", n: "Brazen Orange Metallic (2006 GTO)", h: "#D95614" },
+  { r: "USDM", m: "Pontiac", c: "16U", n: "Stryker Blue Metallic (2009 G8 GXP / GT)", h: "#005596" },
+  { r: "USDM", m: "Buick", c: "19", n: "Black (1987 Grand National / GNX)", h: "#101114" },
+  { r: "USDM", m: "Buick", c: "50", n: "White (1970 GSX Stage 1)", h: "#F4F5F2" },
+  { r: "USDM", m: "Buick", c: "51", n: "Saturn Yellow (1970 GSX Stage 1)", h: "#E8C400" },
+  { r: "USDM", m: "Oldsmobile", c: "51", n: "Sebring Yellow (1970 442 W-30)", h: "#E8C000" },
+  { r: "USDM", m: "Oldsmobile", c: "28", n: "Twilight Blue Metallic (1970 442 W-30)", h: "#14386E" },
+  { r: "USDM", m: "Cadillac", c: "41U", n: "Black Raven (CTS-V)", h: "#111215" },
+  { r: "USDM", m: "Cadillac", c: "67U", n: "Infra Red (CTS-V)", h: "#9E1422" },
+  { r: "USDM", m: "Cadillac", c: "17U", n: "Thunder Grey ChromaFlair (CTS-V)", h: "#4B4F54" },
+  { r: "USDM", m: "Chrysler", c: "PS2", n: "Bright Silver Metallic (Crossfire SRT-6 / 300C SRT8)", h: "#A6ABB0" },
+  { r: "USDM", m: "Chrysler", c: "PXR", n: "Brilliant Black Crystal (300C SRT8)", h: "#111215" },
+  { r: "USDM", m: "Jeep", c: "PRH", n: "Inferno Red Crystal Pearl (Grand Cherokee SRT8)", h: "#8A1422" },
+
+  // AUSSIE
+    // === BATCH 4: AUSSIE PERFORMANCE & MOTORSPORT (125 CODES: 1970-2010) ===
+  // Holden, HDT & HSV (65 Codes)
+  { r: "AUS", m: "Holden", c: "1D008", n: "Absinth Yellow (HQ / HJ Monaro GTS)", h: "#C8C428" },
+  { r: "AUS", m: "Holden", c: "1D012", n: "Salamanca Red (HQ Monaro / LH Torana A9X)", h: "#A81C24" },
+  { r: "AUS", m: "Holden", c: "1C019", n: "Papaya Orange (LH Torana SL/R 5000)", h: "#E05A1E" },
+  { r: "AUS", m: "Holden", c: "1D018", n: "Sebring Orange (LX Torana A9X / SS)", h: "#E85D1A" },
+  { r: "AUS", m: "Holden", c: "1D016", n: "Jade Green Metallic (LX Torana SL/R 5000)", h: "#21573E" },
+  { r: "AUS", m: "Holden", c: "1C022", n: "Jamaican Lime (HQ Monaro GTS / Torana)", h: "#7CA628" },
+  { r: "AUS", m: "Holden", c: "1B006", n: "Chateau Mauve Metallic (HQ Monaro GTS)", h: "#5A3E4B" },
+  { r: "AUS", m: "Holden", c: "1D024", n: "Mandarin Red (HX / HZ Sandman / Monaro GTS)", h: "#C8381E" },
+  { r: "AUS", m: "Holden", c: "1E021", n: "Flamenco Red (LX Torana A9X Hatchback)", h: "#8A1824" },
+  { r: "AUS", m: "Holden", c: "1F011", n: "Palais White (HDT VC / VH Brock Commodore)", h: "#F4F5F2" },
+  { r: "AUS", m: "Holden", c: "1J006", n: "Firethorn Red (HDT VC Brock Commodore)", h: "#9E1B24" },
+  { r: "AUS", m: "Holden", c: "1H014", n: "Maranello Red (HDT VH / VK Group A Brock)", h: "#C81422" },
+  { r: "AUS", m: "Holden", c: "1H041", n: "Formula Blue / Delft Blue (HDT VK Blue Meanie)", h: "#2C5E8A" },
+  { r: "AUS", m: "Holden", c: "1F028", n: "Alpine White (HDT VK Group A / VL Group A)", h: "#F5F6F4" },
+  { r: "AUS", m: "Holden", c: "1J046", n: "Permanent Red (HDT VL SS Group A)", h: "#C4161C" },
+  { r: "AUS", m: "Holden", c: "1B009", n: "Panorama Silver Metallic (HSV VL Walkinshaw)", h: "#8B939B" },
+  { r: "AUS", m: "Holden", c: "1F019", n: "Imperial Blue / Formula Blue (VN SS Group A)", h: "#14346B" },
+  { r: "AUS", m: "Holden", c: "1J053", n: "Durif Red (VN SS Group A / VP GTS)", h: "#6B1726" },
+  { r: "AUS", m: "Holden", c: "1E028", n: "Anthracite Grey Metallic (VP GTS)", h: "#383C40" },
+  { r: "AUS", m: "Holden", c: "1B064", n: "Sherbrooke Green Metallic (VR / VS GTS-R)", h: "#0E3328" },
+  { r: "AUS", m: "Holden", c: "2J011", n: "XU3 Yellah (VS HSV GTS-R)", h: "#E8C400" },
+  { r: "AUS", m: "Holden", c: "1C029", n: "Botanica Mica (VS Commodore SS / Clubsport)", h: "#14423E" },
+  { r: "AUS", m: "Holden", c: "1J058", n: "Diablo Red (VS / VT Commodore SS)", h: "#B81422" },
+  { r: "AUS", m: "Holden", c: "1J060", n: "Sting Red (VT / VX / VY / VZ / VE SS)", h: "#C8102E" },
+  { r: "AUS", m: "Holden", c: "2B022", n: "Raven Mica (VT / VX Clubsport / GTS)", h: "#121418" },
+  { r: "AUS", m: "Holden", c: "1B052", n: "Orion Silver Metallic (VT / VX GTS)", h: "#9EA3A8" },
+  { r: "AUS", m: "Holden", c: "2J012", n: "Tiger Mica (VT Series II SS / Monaro)", h: "#C85A14" },
+  { r: "AUS", m: "Holden", c: "2B025", n: "Bermuda Blue Mica (VT / VX SS)", h: "#143E6E" },
+  { r: "AUS", m: "Holden", c: "2C015", n: "Delft Blue Metallic (VX HSV GTS 300)", h: "#184682" },
+  { r: "AUS", m: "Holden", c: "2J014", n: "Devil Yellow (V2 / VZ Monaro CV8-Z)", h: "#EAB800" },
+  { r: "AUS", m: "Holden", c: "675F", n: "Hothouse Green Metallic (VY SS / Monaro CV8)", h: "#4D9A2A" },
+  { r: "AUS", m: "Holden", c: "3J011", n: "Impulse Blue Metallic (VZ Monaro / SS)", h: "#174A8C" },
+  { r: "AUS", m: "Holden", c: "2J016", n: "Turbine Grey Metallic (VY / VZ Clubsport)", h: "#52565B" },
+  { r: "AUS", m: "Holden", c: "789J", n: "Phantom Black Metallic (VY / VZ / VE HSV)", h: "#141518" },
+  { r: "AUS", m: "Holden", c: "679F", n: "Quicksilver Metallic (VY / VZ / VE SS)", h: "#A3A8AD" },
+  { r: "AUS", m: "Holden", c: "680F", n: "Heron White (VY / VZ / VE Commodore SS)", h: "#F4F5F2" },
+  { r: "AUS", m: "Holden", c: "791J", n: "Cosmos Purple Metallic (VY / VZ Commodore)", h: "#3B1E4A" },
+  { r: "AUS", m: "Holden", c: "894K", n: "Fusion Orange Metallic (VZ Monaro CV8)", h: "#D95614" },
+  { r: "AUS", m: "Holden", c: "141H", n: "Odyssey Mercury Silver (VZ HSV GTO)", h: "#7E848A" },
+  { r: "AUS", m: "Holden", c: "687F", n: "Atomic Green Metallic (VE Commodore / Ute)", h: "#509E2F" },
+  { r: "AUS", m: "Holden", c: "506Q", n: "Ignition Orange Metallic (VE SSV / HSV)", h: "#E05A1E" },
+  { r: "AUS", m: "Holden", c: "690F", n: "Voodoo Blue Metallic (VE SS / Maloo R8)", h: "#005596" },
+  { r: "AUS", m: "Holden", c: "515Q", n: "Hazard Yellow (VE Series II SSV)", h: "#F2C700" },
+  { r: "AUS", m: "Holden", c: "403P", n: "Poison Ivy Metallic (VE Commodore SS)", h: "#0B3D26" },
+  { r: "AUS", m: "Holden", c: "882N", n: "Morpheous Purple Metallic (VE Commodore)", h: "#4A245E" },
+  { r: "AUS", m: "Holden", c: "636R", n: "Nitrate Silver Metallic (VE / VF SS)", h: "#9FA4A9" },
+  { r: "AUS", m: "Holden", c: "212P", n: "Karma Blue Metallic (VE Series II SS)", h: "#1C5A8A" },
+  { r: "AUS", m: "Holden", c: "505Q", n: "Red Hot (VE / VF Commodore SS / HSV)", h: "#C81422" },
+  { r: "AUS", m: "Holden", c: "177R", n: "Alto Grey Metallic (VE / VF SSV)", h: "#4B4F54" },
+  { r: "AUS", m: "Holden", c: "816T", n: "Jungle Green (VF Commodore SS)", h: "#284B2A" },
+  { r: "AUS", m: "Holden", c: "G7C", n: "Spitfire Green (VF Series II / GTSR W1)", h: "#4D8C2B" },
+  { r: "AUS", m: "Holden", c: "623V", n: "Light My Fire Orange (VF GTSR W1)", h: "#D94E1F" },
+  { r: "AUS", m: "Holden", c: "123V", n: "Slipstream Blue Metallic (VF Series II)", h: "#14529E" },
+  { r: "AUS", m: "Holden", c: "1G014", n: "Tuxedo Black (HQ / HJ Monaro GTS)", h: "#111215" },
+  { r: "AUS", m: "Holden", c: "1D009", n: "Barbados Green Metallic (HQ Monaro)", h: "#1E6E54" },
+  { r: "AUS", m: "Holden", c: "1C018", n: "Lone O'Ranger (HQ Sandman / Monaro)", h: "#D94E14" },
+  { r: "AUS", m: "Holden", c: "1B014", n: "Asteroid Silver (VL Turbo / Calais)", h: "#8E9398" },
+  { r: "AUS", m: "Holden", c: "1C025", n: "Canary Yellow (VL Walkinshaw / BT1)", h: "#E8C000" },
+  { r: "AUS", m: "Holden", c: "1H035", n: "Cerulean Blue Metallic (VK Commodore)", h: "#2A689C" },
+  { r: "AUS", m: "Holden", c: "1F024", n: "Alabaster White (VN / VP Commodore SS)", h: "#F2F3F0" },
+  { r: "AUS", m: "Holden", c: "1B061", n: "Atlas Grey Metallic (VN / VP SS)", h: "#5A5E63" },
+  { r: "AUS", m: "Holden", c: "2C012", n: "Genesis Blue Mica (VS / VT Commodore)", h: "#14346B" },
+  { r: "AUS", m: "Holden", c: "3J014", n: "Vespers Blue Metallic (VZ Clubsport R8)", h: "#14264A" },
+  { r: "AUS", m: "Holden", c: "790J", n: "Shanghai Red Mica (VZ / VE Calais / HSV)", h: "#6E1622" },
+  { r: "AUS", m: "Holden", c: "213P", n: "Sizzle Red Metallic (VE Series II SS)", h: "#B81824" },
+
+  // Ford Australia & FPV (48 Codes)
+  { r: "AUS", m: "Ford Australia", c: "R", n: "Vermilion Fire (XW / XY Falcon GT-HO Phase III)", h: "#C4261D" },
+  { r: "AUS", m: "Ford Australia", c: "Y", n: "Yellow Ochre / Yellow Blaze (XY GT-HO)", h: "#D99B16" },
+  { r: "AUS", m: "Ford Australia", c: "Z", n: "Track Red (XY Falcon GT-HO Phase III)", h: "#C81422" },
+  { r: "AUS", m: "Ford Australia", c: "W", n: "Diamond White (XW / XY / XA Falcon GT)", h: "#F4F5F2" },
+  { r: "AUS", m: "Ford Australia", c: "H", n: "Ultra White (XY Falcon GT-HO)", h: "#F5F6F4" },
+  { r: "AUS", m: "Ford Australia", c: "9", n: "Wild Violet (XA / XB Falcon GT)", h: "#4A2559" },
+  { r: "AUS", m: "Ford Australia", c: "5", n: "Calypso Green (XA / XB Falcon GT Hardtop)", h: "#2A7A4B" },
+  { r: "AUS", m: "Ford Australia", c: "J", n: "Yellow Glow (XA / XB Falcon GT)", h: "#F2C100" },
+  { r: "AUS", m: "Ford Australia", c: "K", n: "Tango Orange (XB Falcon GT Hardtop)", h: "#E04E14" },
+  { r: "AUS", m: "Ford Australia", c: "B", n: "Brambles Red (XB / XC Falcon Cobra)", h: "#9E1822" },
+  { r: "AUS", m: "Ford Australia", c: "M", n: "Bold Blue (XC Falcon Cobra)", h: "#144A96" },
+  { r: "AUS", m: "Ford Australia", c: "S", n: "Sno White (XC Falcon Cobra Hardtop)", h: "#F4F5F2" },
+  { r: "AUS", m: "Ford Australia", c: "G", n: "Emerald Fire Metallic (XC Falcon GS / GT)", h: "#144732" },
+  { r: "AUS", m: "Ford Australia", c: "V", n: "Monza Red (XE Falcon ESP)", h: "#C81422" },
+  { r: "AUS", m: "Ford Australia", c: "9", n: "Charcoal Metallic (XE Falcon ESP 351)", h: "#3B3E42" },
+  { r: "AUS", m: "Ford Australia", c: "E8", n: "Cobalt Blue Metallic (EB Falcon GT)", h: "#143A78" },
+  { r: "AUS", m: "Ford Australia", c: "A3", n: "Cardinal Red (EB Falcon GT)", h: "#8A1525" },
+  { r: "AUS", m: "Ford Australia", c: "H4", n: "Heritage Green Metallic (EL Falcon GT)", h: "#0E3B28" },
+  { r: "AUS", m: "Ford Australia", c: "N2", n: "Navy Blue Metallic (EL Falcon GT)", h: "#14264A" },
+  { r: "AUS", m: "Ford Australia", c: "S7", n: "Sparkling Burgundy (EL Falcon GT)", h: "#5A1826" },
+  { r: "AUS", m: "Ford Australia", c: "T3", n: "Tigers Mica (AU Falcon TE50 / TS50)", h: "#C85A14" },
+  { r: "AUS", m: "Ford Australia", c: "V2", n: "Venom Red (AU Falcon XR8 / TE50)", h: "#B81422" },
+  { r: "AUS", m: "Ford Australia", c: "B5", n: "Blueprint Metallic (AU / BA Falcon XR6T / XR8)", h: "#0F3D7A" },
+  { r: "AUS", m: "Ford Australia", c: "AC", n: "Acid Rush (BA / BF Falcon XR6 Turbo / FPV GT)", h: "#9E9B1E" },
+  { r: "AUS", m: "Ford Australia", c: "G4", n: "Blood Orange (BA Falcon XR8 / Typhoon)", h: "#D84315" },
+  { r: "AUS", m: "Ford Australia", c: "C4", n: "Citric Acid (BA FPV GT-P)", h: "#B8C41E" },
+  { r: "AUS", m: "Ford Australia", c: "M4", n: "Mercury Silver Metallic (BA / BF FPV GT)", h: "#A3A8AD" },
+  { r: "AUS", m: "Ford Australia", c: "S6", n: "Silhouette Black (BA / BF / FG FPV GT)", h: "#111215" },
+  { r: "AUS", m: "Ford Australia", c: "W4", n: "Winter White (BA / BF / FG Falcon XR6T)", h: "#F4F5F2" },
+  { r: "AUS", m: "Ford Australia", c: "B8", n: "Bionic Blue Metallic (BF Falcon XR6T / F6)", h: "#1456A8" },
+  { r: "AUS", m: "Ford Australia", c: "VP", n: "Vixen Red (BF / FG Falcon XR6T / FPV)", h: "#B81422" },
+  { r: "AUS", m: "Ford Australia", c: "E5", n: "Ego Grey Metallic (BF / FG FPV GT / F6)", h: "#4A4E54" },
+  { r: "AUS", m: "Ford Australia", c: "V8", n: "Velocity Blue (BF / FG Falcon XR8)", h: "#1468B8" },
+  { r: "AUS", m: "Ford Australia", c: "C6", n: "Conquer Blue Metallic (BF Cobra)", h: "#14346B" },
+  { r: "AUS", m: "Ford Australia", c: "OR", n: "Octane Orange (FG Falcon XR6T / FPV F6)", h: "#D94E14" },
+  { r: "AUS", m: "Ford Australia", c: "NF", n: "Nitro Blue (FG Falcon XR8 / FPV GT)", h: "#005A9C" },
+  { r: "AUS", m: "Ford Australia", c: "GS", n: "Enviro Green (FG FPV GS / GT)", h: "#3D7A28" },
+  { r: "AUS", m: "Ford Australia", c: "KI", n: "Kinetic Blue (FG / FG X Falcon XR8)", h: "#14529E" },
+  { r: "AUS", m: "Ford Australia", c: "SL", n: "Seduce Red Metallic (FG Falcon XR6T)", h: "#7A1622" },
+  { r: "AUS", m: "Ford Australia", c: "LT", n: "Lightning Strike Silver (FG Falcon)", h: "#9EA3A8" },
+  { r: "AUS", m: "Ford Australia", c: "DV", n: "Dash Green (FG Falcon XR6)", h: "#54A828" },
+  { r: "AUS", m: "Ford Australia", c: "ST", n: "Sunburst Orange (FG Falcon XR6T)", h: "#E86E14" },
+  { r: "AUS", m: "Ford Australia", c: "SV", n: "Shockwave Blue (BA / BF Falcon XR6)", h: "#1E78C8" },
+  { r: "AUS", m: "Ford Australia", c: "P5", n: "Phantom Purple (BA / BF Falcon XR8)", h: "#381B4A" },
+  { r: "AUS", m: "Ford Australia", c: "R8", n: "Rapid Yellow (BA / BF Falcon XR6T)", h: "#F2C100" },
+  { r: "AUS", m: "Ford Australia", c: "N4", n: "Narooma Blue Metallic (AU / BA Falcon)", h: "#1C5A78" },
+  { r: "AUS", m: "Ford Australia", c: "G6", n: "Gasoline Metallic (FG FPV GT)", h: "#28383E" },
+  { r: "AUS", m: "Ford Australia", c: "EM", n: "Emperor Red (FG X Falcon XR8 Sprint)", h: "#8A1622" },
+
+  // Chrysler Australia / Valiant Charger Bathurst Legends (12 Codes)
+
+  { r: "AUS", m: "Chrysler", c: "E48", n: "Hemi Orange (VH Valiant Charger R/T E49)", h: "#E84E14" },
+  { r: "AUS", m: "Chrysler", c: "E38", n: "Vitamin C Orange (VH Charger R/T E38)", h: "#D94614" },
+  { r: "AUS", m: "Chrysler", c: "K1", n: "Hot Mustard (VH Valiant Charger R/T)", h: "#C89B14" },
+  { r: "AUS", m: "Chrysler", c: "G4", n: "Limelight Green (VH Valiant Charger)", h: "#68B828" },
+  { r: "AUS", m: "Chrysler", c: "B5", n: "True Blue Metallic (VH / VJ Valiant Charger)", h: "#144E96" },
+  { r: "AUS", m: "Chrysler", c: "W1", n: "Alpine White (VH Charger R/T E49 Track Pack)", h: "#F4F5F2" },
+  { r: "AUS", m: "Chrysler", c: "Y3", n: "Sunfire Yellow (VJ Valiant Charger 770)", h: "#F2C100" },
+  { r: "AUS", m: "Chrysler", c: "R4", n: "Magenta / Moulin Rouge (VH Charger R/T)", h: "#B8286B" },
+  { r: "AUS", m: "Chrysler", c: "A4", n: "Mercury Silver Metallic (VJ Charger)", h: "#9EA3A8" },
+  { r: "AUS", m: "Chrysler", c: "G6", n: "Vintage Green Metallic (VK Charger)", h: "#183B28" },
+  { r: "AUS", m: "Chrysler", c: "B8", n: "Midnight Blue Metallic (CL Charger)", h: "#142442" },
+  { r: "AUS", m: "Chrysler", c: "R8", n: "Vintage Red (CL Valiant Drifter)", h: "#8A1822" },
+
+];
+
+document.addEventListener("DOMContentLoaded", function () {
+  const colorPicker = document.getElementById("colorPicker");
+  const hexInput = document.getElementById("hexInput");
+  const hslH = document.getElementById("hslH");
+  const hslS = document.getElementById("hslS");
+  const hslL = document.getElementById("hslL");
+
+  const previewBox = document.getElementById("previewBox");
+  const previewHex = document.getElementById("previewHex");
+  const previewRgb = document.getElementById("previewRgb");
+
+  const ssrHue = document.getElementById("ssrHue");
+  const ssrSat = document.getElementById("ssrSat");
+  const ssrVal = document.getElementById("ssrVal");
+  const copyBtn = document.getElementById("copyBtn");
+
+  // Eyedropper Elements
+  const imageUpload = document.getElementById("imageUpload");
+  const clearImgBtn = document.getElementById("clearImgBtn");
+  const imgStatus = document.getElementById("imgStatus");
+  const canvasWrap = document.getElementById("canvasWrap");
+  const imageCanvas = document.getElementById("imageCanvas");
+  const ctx = imageCanvas.getContext("2d", { willReadFrequently: true });
+  const loupeBar = document.getElementById("loupeBar");
+  const loupeSwatch = document.getElementById("loupeSwatch");
+  const loupeText = document.getElementById("loupeText");
+
+  // OEM Elements
+  const regionPills = document.getElementById("regionPills");
+  const oemSearch = document.getElementById("oemSearch");
+  const oemResults = document.getElementById("oemResults");
+  const oemCount = document.getElementById("oemCount");
+
+  // Preset Elements
+  const presetName = document.getElementById("presetName");
+  const savePresetBtn = document.getElementById("savePresetBtn");
+  const presetList = document.getElementById("presetList");
+  const presetCount = document.getElementById("presetCount");
+  const exportBtn = document.getElementById("exportBtn");
+  const importFile = document.getElementById("importFile");
+
+  let activeRegion = "ALL";
+  let currentHex = "#FF3E55";
+  const STORAGE_KEY = "bagels_ssr_presets_v1";
+
+  function clamp(val, min, max) {
+    return Math.min(Math.max(val, min), max);
+  }
+
+  function hexToRgb(hex) {
+    let clean = hex.replace(/[^0-9A-Fa-f]/g, "");
+    if (clean.length === 3) {
+      clean = clean.split("").map(c => c + c).join("");
+    }
+    if (clean.length !== 6) return null;
+    const num = parseInt(clean, 16);
+    return {
+      r: (num >> 16) & 255,
+      g: (num >> 8) & 255,
+      b: num & 255,
+      hex: "#" + clean.toUpperCase()
     };
+  }
 
-    let presets = loadPresets();
+  function rgbToHex(r, g, b) {
+    return "#" + [r, g, b].map(x => {
+      const hex = Math.round(x).toString(16);
+      return hex.length === 1 ? "0" + hex : hex;
+    }).join("").toUpperCase();
+  }
 
-    function clamp(val, min, max) {
-      return Math.min(Math.max(val, min), max);
-    }
+  function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
 
-    function hexToRgb(hex) {
-      let clean = hex.replace(/[^0-9A-Fa-f]/g, "");
-      if (clean.length === 3) {
-        clean = clean.split("").map(c => c + c).join("");
-      }
-      if (clean.length !== 6) return null;
-      const num = parseInt(clean, 16);
-      return {
-        r: (num >> 16) & 255,
-        g: (num >> 8) & 255,
-        b: num & 255,
-        hex: "#" + clean.toUpperCase()
-      };
-    }
-
-    function rgbToHex(r, g, b) {
-      return "#" + [r, g, b].map(x => {
-        const hex = Math.round(x).toString(16);
-        return hex.length === 1 ? "0" + hex : hex;
-      }).join("").toUpperCase();
-    }
-
-    function rgbToHsl(r, g, b) {
-      r /= 255; g /= 255; b /= 255;
-      const max = Math.max(r, g, b), min = Math.min(r, g, b);
-      let h, s, l = (max + min) / 2;
-
-      if (max === min) {
-        h = s = 0;
-      } else {
-        const d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch (max) {
-          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-          case g: h = (b - r) / d + 2; break;
-          case b: h = (r - g) / d + 4; break;
-        }
-        h /= 6;
-      }
-      return {
-        h: Math.round(h * 360),
-        s: Math.round(s * 100),
-        l: Math.round(l * 100)
-      };
-    }
-
-    function hslToRgb(h, s, l) {
-      h = ((h % 360) + 360) % 360;
-      s = clamp(s, 0, 100) / 100;
-      l = clamp(l, 0, 100) / 100;
-
-      const c = (1 - Math.abs(2 * l - 1)) * s;
-      const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-      const m = l - c / 2;
-      let r1 = 0, g1 = 0, b1 = 0;
-
-      if (h < 60) { r1 = c; g1 = x; b1 = 0; }
-      else if (h < 120) { r1 = x; g1 = c; b1 = 0; }
-      else if (h < 180) { r1 = 0; g1 = c; b1 = x; }
-      else if (h < 240) { r1 = 0; g1 = x; b1 = c; }
-      else if (h < 300) { r1 = x; g1 = 0; b1 = c; }
-      else { r1 = c; g1 = 0; b1 = x; }
-
-      return {
-        r: Math.round((r1 + m) * 255),
-        g: Math.round((g1 + m) * 255),
-        b: Math.round((b1 + m) * 255)
-      };
-    }
-
-    function rgbToHsv(r, g, b) {
-      r /= 255; g /= 255; b /= 255;
-      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    if (max === min) {
+      h = s = 0;
+    } else {
       const d = max - min;
-      let h = 0;
-      const s = max === 0 ? 0 : d / max;
-      const v = max;
-
-      if (max !== min) {
-        switch (max) {
-          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-          case g: h = (b - r) / d + 2; break;
-          case b: h = (r - g) / d + 4; break;
-        }
-        h /= 6;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
       }
+      h /= 6;
+    }
+    return {
+      h: Math.round(h * 360),
+      s: Math.round(s * 100),
+      l: Math.round(l * 100)
+    };
+  }
 
-      return {
-        h: h * 360,
-        s: s * 100,
-        v: v * 100
-      };
+  function hslToRgb(h, s, l) {
+    h = ((h % 360) + 360) % 360;
+    s = clamp(s, 0, 100) / 100;
+    l = clamp(l, 0, 100) / 100;
+
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+    const m = l - c / 2;
+    let r1 = 0, g1 = 0, b1 = 0;
+
+    if (h < 60) { r1 = c; g1 = x; b1 = 0; }
+    else if (h < 120) { r1 = x; g1 = c; b1 = 0; }
+    else if (h < 180) { r1 = 0; g1 = c; b1 = x; }
+    else if (h < 240) { r1 = 0; g1 = x; b1 = c; }
+    else if (h < 300) { r1 = x; g1 = 0; b1 = c; }
+    else { r1 = c; g1 = 0; b1 = x; }
+
+    return {
+      r: Math.round((r1 + m) * 255),
+      g: Math.round((g1 + m) * 255),
+      b: Math.round((b1 + m) * 255)
+    };
+  }
+
+  function rgbToHsv(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    const d = max - min;
+    let h = 0;
+    const s = max === 0 ? 0 : d / max;
+    const v = max;
+
+    if (max !== min) {
+      switch (max) {
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
+      }
+      h /= 6;
     }
 
-    function updateDisplay(r, g, b, source) {
-      const hex = rgbToHex(r, g, b);
-      const hsl = rgbToHsl(r, g, b);
-      const hsv = rgbToHsv(r, g, b);
+    return {
+      h: h * 360,
+      s: s * 100,
+      v: v * 100
+    };
+  }
 
-      previewBox.style.backgroundColor = hex;
-      previewHex.textContent = hex;
-      previewRgb.textContent = `RGB(${r}, ${g}, ${b})`;
+  function updateDisplay(r, g, b, source) {
+    const hex = rgbToHex(r, g, b);
+    currentHex = hex;
+    const hsl = rgbToHsl(r, g, b);
+    const hsv = rgbToHsv(r, g, b);
 
-      if (source !== "hex") {
-        hexInput.value = hex;
-      }
-      if (source !== "picker") {
-        colorPicker.value = hex;
-      }
-      if (source !== "hsl") {
-        hslH.value = hsl.h;
-        hslS.value = hsl.s;
-        hslL.value = hsl.l;
-      }
+    previewBox.style.backgroundColor = hex;
+    previewHex.textContent = hex;
+    previewRgb.textContent = `RGB(${r}, ${g}, ${b})`;
 
-      const ssrH = Math.round((hsv.h / 360) * 100);
-      const ssrS = Math.round(hsv.s);
-      const ssrV = Math.round(hsv.v);
-
-      ssrHue.textContent = ssrH;
-      ssrSat.textContent = ssrS + "%";
-      ssrVal.textContent = ssrV;
-
-      currentState = { hex, r, g, b, h: ssrH, s: ssrS, v: ssrV };
+    if (source !== "hex") hexInput.value = hex;
+    if (source !== "picker") colorPicker.value = hex;
+    if (source !== "hsl") {
+      hslH.value = hsl.h;
+      hslS.value = hsl.s;
+      hslL.value = hsl.l;
     }
 
-    function loadPresets() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        return raw ? JSON.parse(raw) : [];
-      } catch (e) {
-        return [];
-      }
-    }
+    ssrHue.textContent = Math.round((hsv.h / 360) * 100);
+    ssrSat.textContent = Math.round(hsv.s) + "%";
+    ssrVal.textContent = Math.round(hsv.v);
+  }
 
-    function savePresetsToStorage() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(presets));
-      } catch (e) {
-        alert("Could not save to browser local storage.");
-      }
-    }
-
-    function escapeHtml(str) {
-      const div = document.createElement("div");
-      div.textContent = str;
-      return div.innerHTML;
-    }
-
-    function renderPresets() {
-      presetCount.textContent = `${presets.length} Saved`;
-      if (presets.length === 0) {
-        presetList.innerHTML = `<div class="empty-state">No presets saved yet. Name a colour above and click Save Preset.</div>`;
-        return;
-      }
-
-      presetList.innerHTML = "";
-      presets.forEach((item, index) => {
-        const row = document.createElement("div");
-        row.className = "preset-item";
-
-        row.innerHTML = `
-          <div class="preset-info" data-index="${index}" title="Click to load colour">
-            <div class="preset-swatch" style="background-color: ${escapeHtml(item.hex)};"></div>
-            <div class="preset-meta">
-              <span class="preset-name">${escapeHtml(item.name)}</span>
-              <span class="preset-values">${escapeHtml(item.hex)} &bull; H:${item.h} S:${item.s}% B:${item.v}</span>
-            </div>
-          </div>
-          <div class="preset-item-btns">
-            <button class="btn btn-secondary copy-preset-btn" data-index="${index}">Copy</button>
-            <button class="btn btn-danger delete-preset-btn" data-index="${index}">Delete</button>
-          </div>
-        `;
-        presetList.appendChild(row);
-      });
-
-      document.querySelectorAll(".preset-info").forEach(el => {
-        el.addEventListener("click", function () {
-          const idx = parseInt(this.getAttribute("data-index"), 10);
-          const item = presets[idx];
-          if (item) {
-            const rgb = hexToRgb(item.hex);
-            if (rgb) {
-              updateDisplay(rgb.r, rgb.g, rgb.b, "preset");
-            }
-          }
-        });
-      });
-
-      document.querySelectorAll(".copy-preset-btn").forEach(btn => {
-        btn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          const idx = parseInt(this.getAttribute("data-index"), 10);
-          const item = presets[idx];
-          if (item) {
-            const text = `${item.name} (${item.hex}) -> Hue: ${item.h} | Saturation: ${item.s}% | Brightness: ${item.v}`;
-            navigator.clipboard.writeText(text).then(() => {
-              const orig = this.textContent;
-              this.textContent = "Copied!";
-              setTimeout(() => this.textContent = orig, 1200);
-            });
-          }
-        });
-      });
-
-      document.querySelectorAll(".delete-preset-btn").forEach(btn => {
-        btn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          const idx = parseInt(this.getAttribute("data-index"), 10);
-          presets.splice(idx, 1);
-          savePresetsToStorage();
-          renderPresets();
-        });
-      });
-    }
-
-    function addCurrentPreset() {
-      const rawName = presetNameInput.value.trim();
-      const name = rawName || `Custom ${currentState.hex}`;
-      presets.unshift({
-        name: name,
-        hex: currentState.hex,
-        h: currentState.h,
-        s: currentState.s,
-        v: currentState.v
-      });
-      savePresetsToStorage();
-      renderPresets();
-      presetNameInput.value = "";
-    }
-
-    // Event Listeners
-    hexInput.addEventListener("input", function () {
-      const rgb = hexToRgb(this.value);
-      if (rgb) {
-        updateDisplay(rgb.r, rgb.g, rgb.b, "hex");
-      }
-    });
-
-    colorPicker.addEventListener("input", function () {
-      const rgb = hexToRgb(this.value);
-      if (rgb) {
-        updateDisplay(rgb.r, rgb.g, rgb.b, "picker");
-      }
-    });
-
-    [hslH, hslS, hslL].forEach(input => {
-      input.addEventListener("input", function () {
-        const h = parseFloat(hslH.value) || 0;
-        const s = parseFloat(hslS.value) || 0;
-        const l = parseFloat(hslL.value) || 0;
-        const rgb = hslToRgb(h, s, l);
-        updateDisplay(rgb.r, rgb.g, rgb.b, "hsl");
-      });
-    });
-
-    copyBtn.addEventListener("click", function () {
-      const text = `SSR Paint -> Hue: ${ssrHue.textContent} | Saturation: ${ssrSat.textContent} | Brightness: ${ssrVal.textContent}`;
-      navigator.clipboard.writeText(text).then(() => {
-        const orig = copyBtn.textContent;
-        copyBtn.textContent = "Copied!";
-        setTimeout(() => copyBtn.textContent = orig, 1500);
-      });
-    });
-
-    savePresetBtn.addEventListener("click", addCurrentPreset);
-    presetNameInput.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
-        addCurrentPreset();
-      }
-    });
-
-    exportBtn.addEventListener("click", function () {
-      if (presets.length === 0) {
-        alert("No presets to export yet.");
-        return;
-      }
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(presets, null, 2));
-      const dlAnchor = document.createElement("a");
-      dlAnchor.setAttribute("href", dataStr);
-      dlAnchor.setAttribute("download", "bagels-ssr-presets.json");
-      document.body.appendChild(dlAnchor);
-      dlAnchor.click();
-      dlAnchor.remove();
-    });
-
-    importBtn.addEventListener("click", function () {
-      importFile.click();
-    });
-
-    importFile.addEventListener("change", function (e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function (evt) {
-        try {
-          const imported = JSON.parse(evt.target.result);
-          if (Array.isArray(imported)) {
-            const valid = imported.filter(p => p && typeof p.hex === "string" && typeof p.name === "string");
-            presets = valid.concat(presets);
-            savePresetsToStorage();
-            renderPresets();
-          } else {
-            alert("Invalid preset file format.");
-          }
-        } catch (err) {
-          alert("Could not read JSON file.");
-        }
-        importFile.value = "";
-      };
-      reader.readAsText(file);
-    });
-
-    // Initialize
-    const initial = hexToRgb(hexInput.value);
-    if (initial) updateDisplay(initial.r, initial.g, initial.b, "init");
-    renderPresets();
+  // Hex, Picker & HSL Listeners
+  hexInput.addEventListener("input", function () {
+    const rgb = hexToRgb(this.value);
+    if (rgb) updateDisplay(rgb.r, rgb.g, rgb.b, "hex");
   });
+
+  colorPicker.addEventListener("input", function () {
+    const rgb = hexToRgb(this.value);
+    if (rgb) updateDisplay(rgb.r, rgb.g, rgb.b, "picker");
+  });
+
+  [hslH, hslS, hslL].forEach(input => {
+    input.addEventListener("input", function () {
+      const rgb = hslToRgb(
+        parseFloat(hslH.value) || 0,
+        parseFloat(hslS.value) || 0,
+        parseFloat(hslL.value) || 0
+      );
+      updateDisplay(rgb.r, rgb.g, rgb.b, "hsl");
+    });
+  });
+
+  // Image Upload & Eyedropper Logic
+  let isPicking = false;
+
+  imageUpload.addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function (evt) {
+      const img = new Image();
+      img.onload = function () {
+        const maxDim = 900;
+        let w = img.width;
+        let h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) {
+            h = Math.round((h * maxDim) / w);
+            w = maxDim;
+          } else {
+            w = Math.round((w * maxDim) / h);
+            h = maxDim;
+          }
+        }
+        imageCanvas.width = w;
+        imageCanvas.height = h;
+        ctx.drawImage(img, 0, 0, w, h);
+        canvasWrap.style.display = "block";
+        loupeBar.style.display = "flex";
+        clearImgBtn.style.display = "inline-block";
+        imgStatus.textContent = file.name;
+      };
+      img.src = evt.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  clearImgBtn.addEventListener("click", function () {
+    imageUpload.value = "";
+    canvasWrap.style.display = "none";
+    loupeBar.style.display = "none";
+    clearImgBtn.style.display = "none";
+    imgStatus.textContent = "No image loaded";
+  });
+
+  function sampleCanvasAt(clientX, clientY, commit) {
+    const rect = imageCanvas.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+    const scaleX = imageCanvas.width / rect.width;
+    const scaleY = imageCanvas.height / rect.height;
+    const x = clamp(Math.floor((clientX - rect.left) * scaleX), 0, imageCanvas.width - 1);
+    const y = clamp(Math.floor((clientY - rect.top) * scaleY), 0, imageCanvas.height - 1);
+
+    const pixel = ctx.getImageData(x, y, 1, 1).data;
+    const hex = rgbToHex(pixel[0], pixel[1], pixel[2]);
+    loupeSwatch.style.backgroundColor = hex;
+    loupeText.textContent = `Sampled: ${hex} (${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+
+    if (commit) {
+      updateDisplay(pixel[0], pixel[1], pixel[2], "eyedropper");
+    }
+  }
+
+  imageCanvas.addEventListener("pointerdown", function (e) {
+    isPicking = true;
+    imageCanvas.setPointerCapture(e.pointerId);
+    sampleCanvasAt(e.clientX, e.clientY, true);
+  });
+
+  imageCanvas.addEventListener("pointermove", function (e) {
+    if (!isPicking && e.pointerType !== "mouse") return;
+    sampleCanvasAt(e.clientX, e.clientY, isPicking);
+  });
+
+  imageCanvas.addEventListener("pointerup", function (e) {
+    if (isPicking) {
+      sampleCanvasAt(e.clientX, e.clientY, true);
+      isPicking = false;
+    }
+  });
+
+  // OEM Search Logic
+  function renderOemList() {
+    const q = oemSearch.value.trim().toLowerCase();
+    const filtered = OEM_CODES.filter(item => {
+      const regionMatch = activeRegion === "ALL" || item.r === activeRegion;
+      if (!regionMatch) return false;
+      if (!q) return true;
+      return (
+        item.c.toLowerCase().includes(q) ||
+        item.m.toLowerCase().includes(q) ||
+        item.n.toLowerCase().includes(q)
+      );
+    });
+
+    oemCount.textContent = `${filtered.length} code${filtered.length === 1 ? "" : "s"}`;
+    oemResults.innerHTML = "";
+
+    if (filtered.length === 0) {
+      oemResults.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:0.8rem;">No matching paint codes found.</div>`;
+      return;
+    }
+
+    filtered.forEach(item => {
+      const row = document.createElement("div");
+      row.className = "oem-item";
+      row.innerHTML = `
+        <div class="oem-left">
+          <span class="oem-swatch" style="background:${item.h};"></span>
+          <div>
+            <strong>${item.m}</strong> — ${item.n}
+          </div>
+        </div>
+        <span class="oem-code-badge">${item.c}</span>
+      `;
+      row.addEventListener("click", () => {
+        const rgb = hexToRgb(item.h);
+        if (rgb) {
+          updateDisplay(rgb.r, rgb.g, rgb.b, "oem");
+          presetName.value = `${item.m} ${item.n} (${item.c})`;
+        }
+      });
+      oemResults.appendChild(row);
+    });
+  }
+
+  regionPills.addEventListener("click", function (e) {
+    if (!e.target.classList.contains("pill")) return;
+    document.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));
+    e.target.classList.add("active");
+    activeRegion = e.target.dataset.region;
+    renderOemList();
+  });
+
+  oemSearch.addEventListener("input", renderOemList);
+
+  // Copy SSR Values
+  copyBtn.addEventListener("click", function () {
+    const text = `SSR Paint -> Hue: ${ssrHue.textContent} | Saturation: ${ssrSat.textContent} | Brightness: ${ssrVal.textContent}`;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = copyBtn.textContent;
+      copyBtn.textContent = "Copied!";
+      setTimeout(() => copyBtn.textContent = orig, 1400);
+    });
+  });
+
+  // Presets Storage
+  function loadPresets() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch {
+      return [];
+    }
+  }
+
+  function savePresets(list) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  }
+
+  function renderPresets() {
+    const list = loadPresets();
+    presetCount.textContent = `${list.length} saved`;
+    presetList.innerHTML = "";
+
+    if (list.length === 0) {
+      presetList.innerHTML = `<div style="color:var(--muted); font-size:0.8rem; padding:6px 0;">No saved colours yet.</div>`;
+      return;
+    }
+
+    list.forEach((p, idx) => {
+      const card = document.createElement("div");
+      card.className = "preset-card";
+      card.innerHTML = `
+        <div class="preset-info">
+          <span class="preset-swatch" style="background:${p.hex};"></span>
+          <div class="preset-text">
+            <span class="preset-title">${p.name}</span>
+            <span class="preset-meta">${p.hex} | H:${p.h} S:${p.s}% B:${p.v}</span>
+          </div>
+        </div>
+        <div class="preset-actions">
+          <button type="button" class="btn btn-secondary btn-xs copy-p">Copy</button>
+          <button type="button" class="btn btn-secondary btn-xs del-p">Del</button>
+        </div>
+      `;
+
+      card.querySelector(".preset-info").addEventListener("click", () => {
+        const rgb = hexToRgb(p.hex);
+        if (rgb) updateDisplay(rgb.r, rgb.g, rgb.b, "preset");
+      });
+
+      card.querySelector(".copy-p").addEventListener("click", () => {
+        const txt = `${p.name} -> Hue: ${p.h} | Saturation: ${p.s}% | Brightness: ${p.v}`;
+        navigator.clipboard.writeText(txt);
+      });
+
+      card.querySelector(".del-p").addEventListener("click", () => {
+        const updated = loadPresets().filter((_, i) => i !== idx);
+        savePresets(updated);
+        renderPresets();
+      });
+
+      presetList.appendChild(card);
+    });
+  }
+
+  function addCurrentPreset() {
+    const name = presetName.value.trim() || `Custom ${currentHex}`;
+    const list = loadPresets();
+    list.unshift({
+      name: name,
+      hex: currentHex,
+      h: ssrHue.textContent,
+      s: ssrSat.textContent.replace("%", ""),
+      v: ssrVal.textContent
+    });
+    savePresets(list);
+    presetName.value = "";
+    renderPresets();
+  }
+
+  savePresetBtn.addEventListener("click", addCurrentPreset);
+  presetName.addEventListener("keydown", e => {
+    if (e.key === "Enter") addCurrentPreset();
+  });
+
+  exportBtn.addEventListener("click", function () {
+    const blob = new Blob([JSON.stringify(loadPresets(), null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "bagels-ssr-presets.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  importFile.addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function (evt) {
+      try {
+        const imported = JSON.parse(evt.target.result);
+        if (Array.isArray(imported)) {
+          const merged = [...imported, ...loadPresets()];
+          savePresets(merged);
+          renderPresets();
+        }
+      } catch {
+        alert("Invalid JSON preset file.");
+      }
+    };
+    reader.readAsText(file);
+    importFile.value = "";
+  });
+
+  // Init
+  const initRgb = hexToRgb(hexInput.value);
+  if (initRgb) updateDisplay(initRgb.r, initRgb.g, initRgb.b, "init");
+  renderOemList();
+  renderPresets();
+});
 </script>
 
 </body>
